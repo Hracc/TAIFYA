@@ -128,16 +128,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="lexer.h" />
+    <ClInclude Include="tables.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="LexerFunc.cpp" />
+    <ClCompile Include="LexerScan.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Tables.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
-    <Text Include="result_tbl.txt" />
-    <Text Include="tbl_ogranichitel.txt" />
-    <Text Include="tbl_slova.txt.txt" />
+    <Text Include="lexems.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

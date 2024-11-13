@@ -13,31 +13,40 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="lexer.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
+    <Filter Include="Файлы заголовков\lexer">
+      <UniqueIdentifier>{13226416-62bd-4e9c-88f7-154404c50f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\lexer">
+      <UniqueIdentifier>{b91c8ec6-9b47-4090-882f-6df427675961}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Lexer.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="LexerScan.cpp">
+      <Filter>Исходные файлы\lexer</Filter>
     </ClCompile>
+    <ClCompile Include="LexerFunc.cpp">
+      <Filter>Исходные файлы\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tables.cpp">
+      <Filter>Исходные файлы\lexer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lexer.h">
+      <Filter>Файлы заголовков\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="tables.h">
+      <Filter>Файлы заголовков\lexer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="result_tbl.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="tbl_ogranichitel.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="tbl_slova.txt.txt">
+    <Text Include="lexems.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
