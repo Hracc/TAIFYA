@@ -4,12 +4,13 @@
 
 int main() {
 	if (scan()) {
-		saveLexemesToFile("lexems.txt");
 		std::cout<< "Lexer: Success"<< std::endl;
 	}
 	else {
 		std::cout << "Lexer: Error" << std::endl;
 	}
+	saveLexemesToFile("lexems.txt");
+
 
 	return 0;
 }

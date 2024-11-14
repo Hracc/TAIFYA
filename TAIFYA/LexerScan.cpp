@@ -1,42 +1,221 @@
 #include <fstream>
-
 #include <iostream>
 
 #include "lexer.h"
 #include "tables.h"
 
 bool scan() {
+	std::cout << "Lexer: Start: " << std::endl;
 	states CS;
-	int z = 0;
 	CS = H;
+	gc();
 	while (CS != V) {
-		if (!gc()) {
-			return false;
-		}
-		if (CH == '}') {
-			out(1,2);
-			CS = V;
-			continue;
-		}
-		if (CH == '{') {
-			out(1, 1);
-			continue;
-		}
 		switch (CS) {
-		case V:
-			return true;
-		default:
-			int a = 0;
-			nill();
-			add();
-			z = look(TL);
-			if (z==0) {
-				return false;
-			} else
-			{
+// Стандартное состояние
+		case H:
+			// Пропуск пустых символов и проверка на конец файла
+			while (CH == ' ' || CH == '\n' || CH == '\t') {
+				if (!gc()) {
+					CS = ER;
+				}
+			}
+			// Служебные слова и идентификаторы
+			if (let()) {
+				nill();
+				add();
+				gc();
+				CS = I; 
+			}
+			// Числа
+			else if (CH >= '0' && CH <= '1') {
+				CS = _2;
+			}
+			else if (CH >= '1' && CH <= '7') {
+				CS = _2;
+			}
+			else if (CH >= '8' && CH <= '9') {
+				CS = _10;
+			}
+			else if (CH == '{') {
+				CS = BG;
+			}
+			// Меньше и похожие знаки длиною 2 символа
+			else if (CH == '<') {
+				CS = LS;
+			}
+			// Больше и похожие знаки длиною 2 символа
+			else if (CH == '>') {
+				CS = MR;
+			}
+			// Типы данных
+			else if (CH == '%') {
+				CS = INT;
+			}
+			else if (CH == '$') {
+				CS = FLT;
+			}
+			else if (CH == '!') {
+				CS = BL;
+			}
+			// Символ деления и начало комментария
+			else if (CH == '/') {
+				CS = DVD;
+			}
+			// Конечный символ программы
+			else if (CH == '}') {
+				out(1, 2);
+				CS = V;
+			}
+			// Ограничители из одного символа
+			else {
+				CS = OG;
+			}
+			break;
+// Начало обработки след символов
+// Служебные слова и идентификаторы
+		case I:
+			while (let() || digit() || CH == '_') {
+				add(); 
+				gc(); 
+			}
+			look(TW);
+			if (z != 0) { 
+				out(1, z); 
+				CS = H;
+				break;
+			}
+			look(TL);
+			if (z != 0) {
 				out(2, z);
 			}
+
+			else {
+				put(TI);
+				out(4, z);
+			}
+			CS = H;
+			break;
+// Числа
+		case _2:
+			gc();
+			while (CH >= '0' && CH <= '1' || toupper(CH) != 'B') {
+				add();
+				gc();
+			}
+			break;
+
+// Начальный символ программы
+		case BG:
+			out(1, 1);
+			gc();
+			CS = H;
+			break;
+// Типы данных
+		case INT:
+			out(1, 3);
+			gc();
+			CS = H;
+			break;
+		case FLT:
+			out(1, 4);
+			gc();
+			CS = H;
+			break;
+		case BL:
+			out(1, 5);
+			gc();
+			CS = H;
+			break;
+// Символ деления и  комментарии
+		case DVD:
+			gc();
+			if (CH == '*') {
+				CS = C1;
+			}
+			else {
+				CS = H;
+				out(2, 11);
+			}
+			break;
+		case C1:
+			gc();
+			while (CH != '*') {
+				gc();
+			}
+			CS = C2;
+			break;
+		case C2:
+			gc();
+			if (CH == '/') {
+				CS = C3;
+			}
+			else {
+				CS = C1;
+			}
+			break;
+		case C3:
+			gc();
+			CS = H;
+			break;
+// Меньше и похожие знаки длиною 2 символа
+		case LS:
+			gc();
+			if (CH == '>') {
+				CS = LSN;
+			}
+			else if (CH == '=') {
+				CS = LSE;
+			}
+			else {
+				CS = H;
+				out(2, 2);
+			}
+			break;
+			case LSN:
+				gc();
+				CS = H;
+				out(2, 1);
+				break;
+			case LSE:
+				gc();
+				CS = H;
+				out(2, 5);
+				break;
+// Больше и похожие знаки длиною 2 символа
+			case MR:
+				gc();
+				if (CH == '=') {
+					CS = MRE;
+				}
+				else {
+					CS = H;
+					out(2, 3);
+				}
+				break;
+			case MRE:
+				gc();
+				CS = H;
+				out(2, 6);
+				break;
+// Завершение программы
+		case ER:
+			return false;
+		case V:
+			return true;
+// Ограничители из одного символа
+		case OG:
+			int a = 0;
+			nill(); add();
+			look(TL);
+			if (z==0) {
+				CS = ER;
+			} else
+			{
+				CS = H;
+				gc();
+				out(2, z);
+			}
+			break;
 		}
 	}
-	
 }

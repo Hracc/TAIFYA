@@ -1,3 +1,6 @@
+#ifndef TABLE_H
+#define TABLE_H
+
 #pragma once
 
 #include <iostream>
@@ -13,3 +16,4 @@ extern unordered_map<string, int> TN;
 extern unordered_map<string, int> TI;
 
 
+#endif

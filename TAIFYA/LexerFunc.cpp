@@ -1,19 +1,39 @@
-#include <string>
-
 #include "lexer.h"
 #include "tables.h"
 
-using std::string;
+using std::ofstream;
 
 string S;
 char CH;
-std::ifstream fileInput("input.txt");
+ifstream fileInput("input.txt");
 
 vector<Lexeme> lexemes;
+
+int z = 0;
 
 
 bool gc() {
 	if (fileInput.get(CH)) {
+		//std::cout << CH << std::endl;
+		return true;
+	}
+	else {
+		std::cout << "bruh" << std::endl;
+		return false;
+	}
+}
+
+bool let() {
+	if (std::isalpha(CH)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool digit() {
+	if (std::isdigit(CH)) {
 		return true;
 	}
 	else {
@@ -29,15 +49,61 @@ void nill() {
 	S.clear();
 }
 
+void put(unordered_map<string, int>& table) {
+	auto it = table.find(S);
+	if (it == table.end()) {
+		z = table.size() + 1;
+		table[S] = z;
+	}
+	else {
+		z = it->second;
+	}
+}
+
+string findKeyByValue(const std::unordered_map<std::string, int>& table, int value) {
+	for (const auto& pair : table) {
+		//std::cout << pair.second << ", " << pair.first << std::endl;
+		if (pair.second == value) {
+			return pair.first;
+		}
+	}
+	return ""; 
+}
+
+void printLex(int t, int v) {
+	unordered_map<string, int> table;
+	switch (t) {
+	case 1:
+		table = TW;
+		break;
+	case 2:
+		table = TL;
+		break;
+	case 3:
+		table = TN;
+		break;
+	case 4:
+		table = TI;
+		break;
+	}
+	string key = findKeyByValue(table, v);
+	if (!key.empty()) {
+		std::cout << "out: " << t << ", " << v << " : " << key << std::endl;
+	}
+	else {
+		std::cout << "out: " << t << ", " << v << " : key not found" << std::endl;
+	}
+}
 void out(int tableNumb, int valueNumb) {
+	printLex(tableNumb, valueNumb);
 	lexemes.push_back({ tableNumb, valueNumb });
 }
 
 void saveLexemesToFile(const string& filename) {
-	std::ofstream fileLexems(filename, std::ios::trunc);
+	ofstream fileLexems(filename, std::ios::trunc);
 	if (fileLexems.is_open()) {
 		for (const auto& lexeme : lexemes) {
-			fileLexems << lexeme.tableNumber << ", " << lexeme.valueNumber << std::endl;
+			fileLexems << lexeme.tableNumb << ", " << lexeme.valueNumb << std::endl;
 		}
 		fileLexems.close();
 	}
@@ -46,13 +112,13 @@ void saveLexemesToFile(const string& filename) {
 	}
 }
 
-int look(std::unordered_map<string, int>& table) {
+void look(unordered_map<string, int>& table) {
 
 	auto it = table.find(S);
 	if (it != table.end()) {
-		return it->second;
+		z = it->second;
 	}
 	else {
-		return 0;
+		z = 0;
 	}
 }
