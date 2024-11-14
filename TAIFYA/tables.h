@@ -15,5 +15,4 @@ extern unordered_map<string, int> TL;
 extern unordered_map<string, int> TN;
 extern unordered_map<string, int> TI;
 
-
 #endif

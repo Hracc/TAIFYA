@@ -5,6 +5,7 @@
 #include "tables.h"
 
 bool scan() {
+	char lowerCH = tolower(CH);
 	std::cout << "Lexer: Start: " << std::endl;
 	states CS;
 	CS = H;
@@ -28,15 +29,25 @@ bool scan() {
 			}
 			// Числа
 			else if (CH >= '0' && CH <= '1') {
+				nill();
+				add();
+				gc();
 				CS = _2;
 			}
-			else if (CH >= '1' && CH <= '7') {
+			else if (CH >= '2' && CH <= '7') {
+				nill();
+				add();
+				gc();
 				CS = _2;
 			}
 			else if (CH >= '8' && CH <= '9') {
+				nill();
+				add();
+				gc();
 				CS = _10;
 			}
 			else if (CH == '{') {
+				nill();
 				CS = BG;
 			}
 			// Меньше и похожие знаки длиною 2 символа
@@ -97,13 +108,119 @@ bool scan() {
 			break;
 // Числа
 		case _2:
-			gc();
-			while (CH >= '0' && CH <= '1' || toupper(CH) != 'B') {
-				add();
+			while (CH >= '2' && CH <= '7') {
 				gc();
+				add();
+			}
+			if (toupper(CH) == 'B') {
+				add();
+				CS = _2E;
+			}
+			else if (toupper(CH) == 'O') {
+				add();
+				CS = _8E;
+			}
+			else if (toupper(CH) == 'D') {
+				add();
+				CS = _10E;
+			}
+			else if (toupper(CH) == 'H') {
+				add();
+				CS = _16E;
+			}
+			else if (CH >= '2' && CH <= '7') {
+				CS = _8;
+			}
+			else if (CH >= '8' && CH <= '9') {
+				CS = _10;
+			}
+			else if (CH >= '8' && CH <= '9') {
+				CS = _10;
+			}
+			else if (lowerCH == 'a' || lowerCH == 'c' || lowerCH == 'f') {
+				CS = _16;
+			}
+			else {
+				CS = _10E;
 			}
 			break;
-
+		case _8:
+			while (CH >= '0' && CH <= '7') {
+				gc();
+				add();
+			}
+			if (toupper(CH) == 'O') {
+				add();
+				CS = _8E;
+			}
+			else if (toupper(CH) == 'D') {
+				add();
+				CS = _10E;
+			}
+			else if (toupper(CH) == 'H') {
+				add();
+				CS = _16E;
+			}
+			else if (CH >= '8' && CH <= '9') {
+				CS = _10;
+			}
+			else {
+				add();
+				CS = _10E;
+			}
+		case _10:
+			while (digit()) {
+				gc();
+				add();
+			}
+			if (toupper(CH) == 'D') {
+				add();
+				CS = _10E;
+			}
+			else if (toupper(CH) == 'H') {
+				add();
+				CS = _16E;
+			}
+			else {
+				add();
+				CS = _10E;
+			}
+		case _16:
+			while (digit() || lowerCH >= 'a' && lowerCH <= 'f') {
+				gc();
+				add();
+			}
+			if (toupper(CH) == 'H') {
+				add();
+				CS = _16E;
+			}
+			else {
+				add();
+				CS = _10E;
+			}
+		case _2E:
+			gc();
+			CS = H;
+			put(TN);
+			out(3, z);
+			break;
+		case _8E:
+			gc();
+			CS = H;
+			put(TN);
+			out(3, z);
+			break;
+		case _10E:
+			CS = H;
+			put(TN);
+			out(3, z);
+			break;
+		case _16E:
+			gc();
+			CS = H;
+			put(TN);
+			out(3, z);
+			break;
 // Начальный символ программы
 		case BG:
 			out(1, 1);
