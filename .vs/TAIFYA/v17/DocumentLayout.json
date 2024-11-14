@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\LexerScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\input.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
@@ -18,11 +22,24 @@
       "DocumentGroups": [
         {
           "DockedHeight": 229,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Source.cpp",
+              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\Source.cpp",
+              "RelativeDocumentMoniker": "TAIFYA\\Source.cpp",
+              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\Source.cpp",
+              "RelativeToolTip": "TAIFYA\\Source.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-14T17:08:51.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "input.txt",
               "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt",
               "RelativeDocumentMoniker": "TAIFYA\\input.txt",
@@ -30,8 +47,7 @@
               "RelativeToolTip": "TAIFYA\\input.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-11-14T11:37:27.897Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T11:37:27.897Z"
             },
             {
               "$type": "Document",
@@ -41,7 +57,7 @@
               "RelativeDocumentMoniker": "TAIFYA\\LexerScan.cpp",
               "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp",
               "RelativeToolTip": "TAIFYA\\LexerScan.cpp",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAuwI4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAC8BAAAAAAAAAAAcwEIBAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-14T03:43:05.985Z",
               "EditorCaption": ""
