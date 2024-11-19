@@ -33,9 +33,6 @@
     <ClCompile Include="Tables.cpp">
       <Filter>Исходные файлы\lexer</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Исходные файлы\lexer</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.h">

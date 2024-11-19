@@ -1,3 +1,3 @@
 ﻿  LexerScan.cpp
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerScan.cpp(335,1): warning C4715: scan: значение возвращается не при всех путях выполнения
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerScan.cpp(556,1): warning C4715: scan: значение возвращается не при всех путях выполнения
   TAIFYA.vcxproj -> C:\Users\79379\Documents\GitHub\TAIFYA\x64\Debug\TAIFYA.exe

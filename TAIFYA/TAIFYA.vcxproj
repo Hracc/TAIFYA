@@ -134,7 +134,6 @@
     <ClCompile Include="LexerFunc.cpp" />
     <ClCompile Include="LexerScan.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tables.cpp" />
   </ItemGroup>
   <ItemGroup>

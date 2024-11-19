@@ -73,4 +73,5 @@ void put(unordered_map<string, int>& table);
 void out(int tableNumb, int valueNumb);
 void look(unordered_map<string, int>& table);
 
+bool checkTL();
 #endif

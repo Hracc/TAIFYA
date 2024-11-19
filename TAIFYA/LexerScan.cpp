@@ -5,7 +5,7 @@
 #include "tables.h"
 
 bool scan() {
-	char lowerCH = tolower(CH);
+	char lowerCH;
 	std::cout << "Lexer: Start: " << std::endl;
 	states CS;
 	CS = H;
@@ -14,8 +14,9 @@ bool scan() {
 		switch (CS) {
 // Стандартное состояниe
 		case H:
+
 			// Пропуск пустых символов и проверка на конец файла
-			while (CH == ' ' || CH == '\n' || CH == '\t') {
+			while (isspace(CH)) {
 				if (!gc()) {
 					CS = ER;
 				}
@@ -28,7 +29,7 @@ bool scan() {
 				CS = I; 
 			}
 			// Числа
-			else if (CH >= '0' && CH <= '1') {
+			else if (CH == '0' || CH == '1') {
 				nill();
 				add();
 				gc();
@@ -38,7 +39,7 @@ bool scan() {
 				nill();
 				add();
 				gc();
-				CS = _2;
+				CS = _8;
 			}
 			else if (CH >= '8' && CH <= '9') {
 				nill();
@@ -108,118 +109,335 @@ bool scan() {
 			break;
 // Числа
 		case _2:
-			while (CH >= '2' && CH <= '7') {
+			while (CH == '0' || CH == '1') {
+				add();
 				gc();
-				add();
 			}
-			if (toupper(CH) == 'B') {
-				add();
-				CS = _2E;
-			}
-			else if (toupper(CH) == 'O') {
-				add();
-				CS = _8E;
-			}
-			else if (toupper(CH) == 'D') {
-				add();
-				CS = _10E;
-			}
-			else if (toupper(CH) == 'H') {
-				add();
-				CS = _16E;
-			}
-			else if (CH >= '2' && CH <= '7') {
+
+			lowerCH = tolower(CH);
+
+			if (CH >= '2' && CH <= '7') {
 				CS = _8;
 			}
-			else if (CH >= '8' && CH <= '9') {
-				CS = _10;
+			else if (lowerCH == 'o') {
+				add();
+				gc();
+				CS = _8E;
 			}
 			else if (CH >= '8' && CH <= '9') {
 				CS = _10;
+			}
+			else if (lowerCH == 'd') {
+				add();
+				gc();
+				CS = _10E;
+			}
+			else if (CH == '.') {
+				add();
+				gc();
+				CS = RE;
+			}
+			else if (lowerCH == 'e') {
+				add();
+				gc();
+				CS = EXP1;
 			}
 			else if (lowerCH == 'a' || lowerCH == 'c' || lowerCH == 'f') {
 				CS = _16;
 			}
-			else {
+			else if (lowerCH == 'h') {
+				add();
+				gc();
+				CS = _16E;
+			}
+			else if (lowerCH == 'b') {
+				add();
+				gc();
+				CS = _2E;
+			}
+			else if (checkTL()) {
 				CS = _10E;
+			}
+			else {
+				CS = ER;
 			}
 			break;
 		case _8:
 			while (CH >= '0' && CH <= '7') {
+				add();
 				gc();
-				add();
 			}
-			if (toupper(CH) == 'O') {
-				add();
-				CS = _8E;
-			}
-			else if (toupper(CH) == 'D') {
-				add();
-				CS = _10E;
-			}
-			else if (toupper(CH) == 'H') {
-				add();
-				CS = _16E;
-			}
-			else if (CH >= '8' && CH <= '9') {
+
+			lowerCH = tolower(CH);
+
+
+			if (CH >= '8' && CH <= '9') {
 				CS = _10;
 			}
-			else {
+			else if (lowerCH == 'd') {
 				add();
+				gc();
 				CS = _10E;
 			}
+			else if (CH == '.') {
+				add();
+				gc();
+				CS = RE;
+			}
+			else if (lowerCH == 'e') {
+				add();
+				gc();
+				CS = EXP1;
+			}
+			else if (lowerCH == 'a' || lowerCH == 'b' || lowerCH == 'c' || lowerCH == 'f') {
+				CS = _16;
+			}
+			else if (lowerCH == 'h') {
+				add();
+				gc();
+				CS = _16E;
+			}
+			if (lowerCH == 'o') {
+				add();
+				gc();
+				CS = _8E;
+			}
+			else if (checkTL()) {
+				CS = _10E;
+			}
+			else {
+				CS = ER;
+			}
+			break;
 		case _10:
 			while (digit()) {
+				add();
 				gc();
-				add();
 			}
-			if (toupper(CH) == 'D') {
+
+			lowerCH = tolower(CH);
+
+			if (CH == '.') {
 				add();
-				CS = _10E;
+				gc();
+				CS = RE;
 			}
-			else if (toupper(CH) == 'H') {
+			else if (lowerCH == 'e') {
 				add();
+				gc();
+				CS = EXP1;
+			}
+			else if (lowerCH == 'a' || lowerCH == 'b' || lowerCH == 'c' || lowerCH == 'f') {
+				CS = _16;
+			}
+			else if (lowerCH == 'h') {
+				add();
+				gc();
 				CS = _16E;
 			}
-			else {
+			else if (lowerCH == 'd') {
 				add();
+				gc();
 				CS = _10E;
 			}
+			else if (checkTL()) {
+				CS = _10E;
+			}
+			else {
+				CS = ER;
+			}
+			break;
 		case _16:
-			while (digit() || lowerCH >= 'a' && lowerCH <= 'f') {
+			while (digit() || CH >= 'a' && CH<='f' || CH >= 'A' && CH <= 'F') {
+				add();
 				gc();
-				add();
 			}
-			if (toupper(CH) == 'H') {
+
+			lowerCH = tolower(CH);
+
+			if (lowerCH == 'h') {
 				add();
+				gc();
 				CS = _16E;
 			}
 			else {
-				add();
-				CS = _10E;
+				CS = ER;
 			}
+			break;
 		case _2E:
-			gc();
-			CS = H;
-			put(TN);
-			out(3, z);
+			lowerCH = tolower(CH);
+			if (digit() || CH >= 'a' && CH <= 'f' || CH >= 'A' && CH <= 'F') {
+				add();
+				gc();
+				CS = _16;
+			}
+			else if (lowerCH == 'h') {
+				add();
+				gc();
+				CS = _16E;
+			}
+			else if (checkTL()) {
+				CS = H;
+				put(TN);
+				out(3, z);
+			}
+			else {
+				CS = ER;
+			}
 			break;
 		case _8E:
-			gc();
-			CS = H;
-			put(TN);
-			out(3, z);
+			if (checkTL()) {
+				CS = H;
+				put(TN);
+				out(3, z);
+			}
+			else {
+				CS = ER;
+			}
 			break;
 		case _10E:
-			CS = H;
-			put(TN);
-			out(3, z);
+			lowerCH = tolower(CH);
+			if (digit() || CH >= 'a' && CH <= 'f' || CH >= 'A' && CH <= 'F') {
+				add();
+				gc();
+				CS = _16;
+			}
+			else if (lowerCH == 'h') {
+				add();
+				gc();
+				CS = _16E;
+			}
+			else if (checkTL()) {
+				CS = H;
+				put(TN);
+				out(3, z);
+			}
+			else {
+				CS = ER;
+			}
 			break;
 		case _16E:
-			gc();
-			CS = H;
-			put(TN);
-			out(3, z);
+			if (checkTL()) {
+				CS = H;
+				put(TN);
+				out(3, z);
+			}
+			else {
+				CS = ER;
+			}
+			break;
+// Действительные числа
+		case RE:
+			while (digit()) {
+				add();
+				gc();
+			}
+			lowerCH = tolower(CH);
+			if (lowerCH == 'e') {
+				add();
+				gc();
+				CS = EXP2;
+			}
+			else if (checkTL()) {
+				CS = H;
+				put(TN);
+				out(3, z);
+			}
+			else {
+				CS = ER;
+			}
+			break;
+
+		case EXP1:
+			lowerCH = CH;
+			if (CH =='+' || CH == '-') {
+				add();
+				gc();
+				while (digit()) {
+					add();
+					gc();
+				}
+
+				if (checkTL()) {
+					CS = H;
+					put(TN);
+					out(3, z);
+				}
+				else {
+					CS = ER;
+				}
+			}
+			else if (digit()) {
+				add();
+				gc();
+				while (digit()) {
+					add();
+					gc();
+				}
+
+				lowerCH = tolower(CH);
+
+				if (digit() || CH >= 'a' && CH <= 'f' || CH >= 'A' && CH <= 'F') {
+					add();
+					gc();
+					CS = _16;
+				}
+				else if (lowerCH == 'h') {
+					add();
+					gc();
+					CS = _16E;
+				}
+				else if (checkTL()) {
+					CS = H;
+					put(TN);
+					out(3, z);
+				}
+				else {
+					CS = ER;
+				}
+				break;
+			}
+			else if (CH >= 'a' && CH <= 'f' || CH >= 'A' && CH <= 'F') {
+				add();
+				gc();
+				CS = _16;
+			}
+			else if (lowerCH == 'h') {
+				add();
+				gc();
+				CS = _16E;
+			}
+			else if (checkTL()) {
+				CS = H;
+				put(TN);
+				out(3, z);
+			}
+			else {
+				CS = ER;
+			}
+			break;
+		case EXP2:
+			lowerCH = CH;
+			if (CH == '+' || CH == '-' || digit()) {
+				add();
+				gc();
+				while (digit()) {
+					add();
+					gc();
+				}
+
+				if (checkTL()) {
+					CS = H;
+					put(TN);
+					out(3, z);
+				}
+				else {
+					CS = ER;
+				}
+			}
+			else {
+				CS = ER;
+			}
 			break;
 // Начальный символ программы
 		case BG:
@@ -321,15 +539,15 @@ bool scan() {
 			return true;
 // Ограничители из одного символа
 		case OG:
-			int a = 0;
-			nill(); add();
+			nill(); 
+			add();
 			look(TL);
 			if (z==0) {
 				CS = ER;
 			} else
 			{
-				CS = H;
 				gc();
+				CS = H;
 				out(2, z);
 			}
 			break;

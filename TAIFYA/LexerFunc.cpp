@@ -18,7 +18,6 @@ bool gc() {
 		return true;
 	}
 	else {
-		std::cout << "bruh" << std::endl;
 		return false;
 	}
 }
@@ -120,5 +119,23 @@ void look(unordered_map<string, int>& table) {
 	}
 	else {
 		z = 0;
+	}
+}
+
+bool checkTL() {
+	string STR;
+	STR.push_back(CH);
+	auto it = TL.find(STR);
+	if (it != TL.end()) {
+		z = it->second;
+	}
+	else {
+		z = 0;
+	}
+	if (z != 0) {
+		return true;
+	}
+	else {
+		return false;
 	}
 }
