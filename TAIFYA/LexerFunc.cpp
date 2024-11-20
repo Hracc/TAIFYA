@@ -3,25 +3,26 @@
 
 using std::ofstream;
 
+int z = 0;
 string S;
 char CH;
-ifstream fileInput("input.txt");
+bool canRead = true;
 
+ifstream fileInput("input.txt");
 vector<Lexeme> lexemes;
 
-int z = 0;
 
-
-bool gc() {
+//Чтение символа
+void gc() {
 	if (fileInput.get(CH)) {
-		//std::cout << CH << std::endl;
-		return true;
+		canRead = true;
 	}
 	else {
-		return false;
+		canRead = false;
 	}
 }
 
+//Проверка символа на  букву
 bool let() {
 	if (std::isalpha(CH)) {
 		return true;
@@ -31,6 +32,7 @@ bool let() {
 	}
 }
 
+//Проверка символа на число
 bool digit() {
 	if (std::isdigit(CH)) {
 		return true;
@@ -39,15 +41,15 @@ bool digit() {
 		return false;
 	}
 }
-
+// Добавление символа в S
 void add() {
 	S.push_back(CH);
 }
-
+// Очистка S
 void nill() {
 	S.clear();
 }
-
+// Создание значения в таблице
 void put(unordered_map<string, int>& table) {
 	auto it = table.find(S);
 	if (it == table.end()) {
@@ -58,10 +60,9 @@ void put(unordered_map<string, int>& table) {
 		z = it->second;
 	}
 }
-
-string findKeyByValue(const std::unordered_map<std::string, int>& table, int value) {
+// Добавление значения в таблицу (функция out)
+string findKeyByValue(const unordered_map<string, int>& table, int value) {
 	for (const auto& pair : table) {
-		//std::cout << pair.second << ", " << pair.first << std::endl;
 		if (pair.second == value) {
 			return pair.first;
 		}
@@ -87,30 +88,19 @@ void printLex(int t, int v) {
 	}
 	string key = findKeyByValue(table, v);
 	if (!key.empty()) {
-		std::cout << "out: " << t << ", " << v << " : " << key << std::endl;
+		std::cout << "out: " << t << ", " << v << " : " << key << endl;
 	}
 	else {
-		std::cout << "out: " << t << ", " << v << " : key not found" << std::endl;
+		std::cout << "out: " << t << ", " << v << " : key not found" << endl;
 	}
 }
+
 void out(int tableNumb, int valueNumb) {
 	printLex(tableNumb, valueNumb);
 	lexemes.push_back({ tableNumb, valueNumb });
 }
 
-void saveLexemesToFile(const string& filename) {
-	ofstream fileLexems(filename, std::ios::trunc);
-	if (fileLexems.is_open()) {
-		for (const auto& lexeme : lexemes) {
-			fileLexems << lexeme.tableNumb << ", " << lexeme.valueNumb << std::endl;
-		}
-		fileLexems.close();
-	}
-	else {
-		std::cerr << "Err open file" << std::endl;
-	}
-}
-
+//Поиск значение в таблице
 void look(unordered_map<string, int>& table) {
 
 	auto it = table.find(S);
@@ -122,20 +112,34 @@ void look(unordered_map<string, int>& table) {
 	}
 }
 
+// Прочее функции для удобства
 bool checkTL() {
 	string STR;
 	STR.push_back(CH);
-	auto it = TL.find(STR);
-	if (it != TL.end()) {
-		z = it->second;
+	auto it1 = TL.find(STR);
+	//auto it2 = TW.find(STR);
+	if (it1 != TL.end() ) {
+		z = it1->second;
 	}
 	else {
 		z = 0;
 	}
-	if (z != 0) {
+	if (z != 0 || STR=="\n" || STR == "\t" || STR == " " || STR == "}" && canRead) {
 		return true;
 	}
 	else {
 		return false;
+	}
+}
+void saveLexemesToFile(const string& filename) {
+	ofstream fileLexems(filename, std::ios::trunc);
+	if (fileLexems.is_open()) {
+		for (const auto& lexeme : lexemes) {
+			fileLexems << lexeme.tableNumb << ", " << lexeme.valueNumb << endl;
+		}
+		fileLexems.close();
+	}
+	else {
+		std::cerr << "Err open file" << endl;
 	}
 }

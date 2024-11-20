@@ -10,6 +10,8 @@ using std::string;
 using std::unordered_map;
 using std::vector;
 using std::ifstream;
+using std::endl;
+
 
 struct Lexeme {
 	int tableNumb;
@@ -51,27 +53,24 @@ enum states {
 };
 
 extern int z;
-
-bool scan();
-
 extern char CH;
 extern string S;
-
-void saveLexemesToFile(const string& filename);
-
-
-
-bool gc();
-
+extern bool canRead;
+//Лексический анализатор
+bool scan();
+//Чтение символа
+void gc();
+//Проверка символа на  букву или число
 bool let();
 bool digit();
-
+// Управление S
 void add();
 void nill();
-
+// Создание, добавление и поиск значения в таблицах
 void put(unordered_map<string, int>& table);
 void out(int tableNumb, int valueNumb);
 void look(unordered_map<string, int>& table);
-
+// Прочее функции для удобства
+void saveLexemesToFile(const string& filename);
 bool checkTL();
 #endif

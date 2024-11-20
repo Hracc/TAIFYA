@@ -14,15 +14,17 @@ bool scan() {
 		switch (CS) {
 // Стандартное состояниe
 		case H:
-
 			// Пропуск пустых символов и проверка на конец файла
-			while (isspace(CH)) {
-				if (!gc()) {
-					CS = ER;
-				}
+			while (isspace(CH) && canRead) {
+				gc();
 			}
+
+			if (!canRead) {
+				CS = ER;
+			}
+			
 			// Служебные слова и идентификаторы
-			if (let()) {
+			else if (let()) {
 				nill();
 				add();
 				gc();
@@ -46,6 +48,12 @@ bool scan() {
 				add();
 				gc();
 				CS = _10;
+			}
+			else if (CH == '.') {
+				nill();
+				add();
+				gc();
+				CS = RE;
 			}
 			else if (CH == '{') {
 				nill();
@@ -109,13 +117,13 @@ bool scan() {
 			break;
 // Числа
 		case _2:
-			while (CH == '0' || CH == '1') {
+
+			while (CH == '0' || CH == '1' && canRead) {
 				add();
 				gc();
 			}
 
 			lowerCH = tolower(CH);
-
 			if (CH >= '2' && CH <= '7') {
 				CS = _8;
 			}
@@ -163,7 +171,7 @@ bool scan() {
 			}
 			break;
 		case _8:
-			while (CH >= '0' && CH <= '7') {
+			while (CH >= '0' && CH <= '7' && canRead) {
 				add();
 				gc();
 			}
@@ -197,7 +205,7 @@ bool scan() {
 				gc();
 				CS = _16E;
 			}
-			if (lowerCH == 'o') {
+			else if (lowerCH == 'o') {
 				add();
 				gc();
 				CS = _8E;
@@ -210,7 +218,7 @@ bool scan() {
 			}
 			break;
 		case _10:
-			while (digit()) {
+			while (digit() && canRead) {
 				add();
 				gc();
 			}
@@ -248,7 +256,7 @@ bool scan() {
 			}
 			break;
 		case _16:
-			while (digit() || CH >= 'a' && CH<='f' || CH >= 'A' && CH <= 'F') {
+			while ((digit() || CH >= 'a' && CH<='f' || CH >= 'A' && CH <= 'F') && canRead) {
 				add();
 				gc();
 			}

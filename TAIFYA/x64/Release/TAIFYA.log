@@ -1,0 +1,11 @@
+﻿  LexerFunc.cpp
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerFunc.cpp(58,20): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  LexerScan.cpp
+  main.cpp
+  Tables.cpp
+  Создание кода
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerScan.cpp(561): warning C4715: scan: значение возвращается не при всех путях выполнения
+  All 475 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  TAIFYA.vcxproj -> C:\Users\79379\Documents\GitHub\TAIFYA\x64\Release\TAIFYA.exe
