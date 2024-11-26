@@ -3,6 +3,7 @@
 
 #include "lexer.h"
 #include "tables.h"
+#include "lexerErrReport.h"
 
 bool scan() {
 	char lowerCH;
@@ -10,19 +11,25 @@ bool scan() {
 	states CS;
 	CS = H;
 	gc();
+	std::cout << "Line 1 :"<< endl;
 	while (CS != V) {
 		switch (CS) {
 // Стандартное состояниe
 		case H:
 			// Пропуск пустых символов и проверка на конец файла
 			while (isspace(CH) && canRead) {
+				if (CH == '\n') {
+					line++;
+					std::cout << "Line: " << line << endl;
+				}
 				gc();
 			}
 
+			// Проверка на конец файла
 			if (!canRead) {
 				CS = ER;
+				reportErr(ErrorType::MissingClosingBrace);
 			}
-			
 			// Служебные слова и идентификаторы
 			else if (let()) {
 				nill();
@@ -71,10 +78,10 @@ bool scan() {
 			else if (CH == '%') {
 				CS = INT;
 			}
-			else if (CH == '$') {
+			else if (CH == '!') {
 				CS = FLT;
 			}
-			else if (CH == '!') {
+			else if (CH == '$') {
 				CS = BL;
 			}
 			// Символ деления и начало комментария
@@ -101,17 +108,16 @@ bool scan() {
 			look(TW);
 			if (z != 0) { 
 				out(1, z); 
-				CS = H;
-				break;
 			}
-			look(TL);
-			if (z != 0) {
-				out(2, z);
-			}
-
 			else {
-				put(TI);
-				out(4, z);
+				look(TL);
+				if (z != 0) {
+					out(2, z);
+				}
+				else {
+					put(TI);
+					out(4, z);
+				}
 			}
 			CS = H;
 			break;
@@ -167,6 +173,7 @@ bool scan() {
 				CS = _10E;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -214,6 +221,7 @@ bool scan() {
 				CS = _10E;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -252,6 +260,7 @@ bool scan() {
 				CS = _10E;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -269,6 +278,7 @@ bool scan() {
 				CS = _16E;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -285,21 +295,23 @@ bool scan() {
 				CS = _16E;
 			}
 			else if (checkTL()) {
-				CS = H;
 				put(TN);
 				out(3, z);
+				CS = H;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
 		case _8E:
 			if (checkTL()) {
-				CS = H;
 				put(TN);
 				out(3, z);
+				CS = H;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -316,27 +328,29 @@ bool scan() {
 				CS = _16E;
 			}
 			else if (checkTL()) {
-				CS = H;
 				put(TN);
 				out(3, z);
+				CS = H;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
 		case _16E:
 			if (checkTL()) {
-				CS = H;
 				put(TN);
 				out(3, z);
+				CS = H;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
 // Действительные числа
 		case RE:
-			while (digit()) {
+			while (digit() && canRead) {
 				add();
 				gc();
 			}
@@ -347,11 +361,12 @@ bool scan() {
 				CS = EXP2;
 			}
 			else if (checkTL()) {
-				CS = H;
 				put(TN);
 				out(3, z);
+				CS = H;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -361,24 +376,25 @@ bool scan() {
 			if (CH =='+' || CH == '-') {
 				add();
 				gc();
-				while (digit()) {
+				while (digit() && canRead) {
 					add();
 					gc();
 				}
 
 				if (checkTL()) {
-					CS = H;
 					put(TN);
 					out(3, z);
+					CS = H;
 				}
 				else {
+					reportErr(ErrorType::InvalidNumberFormat);
 					CS = ER;
 				}
 			}
 			else if (digit()) {
 				add();
 				gc();
-				while (digit()) {
+				while (digit() && canRead) {
 					add();
 					gc();
 				}
@@ -401,6 +417,7 @@ bool scan() {
 					out(3, z);
 				}
 				else {
+					reportErr(ErrorType::InvalidNumberFormat);
 					CS = ER;
 				}
 				break;
@@ -416,11 +433,12 @@ bool scan() {
 				CS = _16E;
 			}
 			else if (checkTL()) {
-				CS = H;
 				put(TN);
 				out(3, z);
+				CS = H;
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -429,21 +447,23 @@ bool scan() {
 			if (CH == '+' || CH == '-' || digit()) {
 				add();
 				gc();
-				while (digit()) {
+				while (digit() && canRead) {
 					add();
 					gc();
 				}
 
 				if (checkTL()) {
-					CS = H;
 					put(TN);
 					out(3, z);
+					CS = H;
 				}
 				else {
+					reportErr(ErrorType::InvalidNumberFormat);
 					CS = ER;
 				}
 			}
 			else {
+				reportErr(ErrorType::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -476,16 +496,22 @@ bool scan() {
 				CS = C1;
 			}
 			else {
-				CS = H;
 				out(2, 11);
+				CS = H;
 			}
 			break;
 		case C1:
 			gc();
-			while (CH != '*') {
+			while (CH != '*' && canRead) {
 				gc();
 			}
-			CS = C2;
+			if (!canRead) {
+				reportErr(ErrorType::MissingClosingComment);
+				CS = ER;
+			} 
+			else {
+				CS = C2;
+			}
 			break;
 		case C2:
 			gc();
@@ -510,36 +536,36 @@ bool scan() {
 				CS = LSE;
 			}
 			else {
-				CS = H;
 				out(2, 2);
+				CS = H;
 			}
 			break;
-			case LSN:
-				gc();
-				CS = H;
-				out(2, 1);
-				break;
-			case LSE:
-				gc();
-				CS = H;
-				out(2, 5);
-				break;
+		case LSN:
+			gc();
+			out(2, 1);
+			CS = H;
+			break;
+		case LSE:
+			gc();
+			CS = H;
+			out(2, 5);
+			break;
 // Больше и похожие знаки длиною 2 символа
-			case MR:
-				gc();
-				if (CH == '=') {
-					CS = MRE;
-				}
-				else {
-					CS = H;
-					out(2, 3);
-				}
-				break;
-			case MRE:
-				gc();
+		case MR:
+			gc();
+			if (CH == '=') {
+				CS = MRE;
+			}
+			else {
+				out(2, 3);
 				CS = H;
-				out(2, 6);
-				break;
+			}
+			break;
+		case MRE:
+			gc();
+			out(2, 6);
+			CS = H;
+			break;
 // Завершение программы
 		case ER:
 			return false;
@@ -551,12 +577,13 @@ bool scan() {
 			add();
 			look(TL);
 			if (z==0) {
+				reportErr(ErrorType::UnknownSymbol, CH);
 				CS = ER;
 			} else
 			{
+				out(2, z);
 				gc();
 				CS = H;
-				out(2, z);
 			}
 			break;
 		}

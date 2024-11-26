@@ -7,7 +7,7 @@ int main() {
 		std::cout<< "Lexer: Success"<< std::endl;
 	}
 	else {
-		std::cout << "Lexer: Error" << std::endl;
+		std::cout << "Lexer: Failed" << std::endl;
 	}
 	saveLexemesToFile("lexems.txt");
 

@@ -41,6 +41,9 @@
     <ClInclude Include="tables.h">
       <Filter>Файлы заголовков\lexer</Filter>
     </ClInclude>
+    <ClInclude Include="lexerErrReport.h">
+      <Filter>Файлы заголовков\lexer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">

@@ -1,1 +1,29 @@
-12.25}
+{
+	/* переменныe */
+	a1, int, celoeChislo:%;
+	c3,bool, trueOrFalse:$;
+	let status=false;
+	input(status);
+	a1 = 11o;
+
+	/*операции*/
+	if a1>2 and status then[
+		c3=30.0e-10/25.25e10;
+		bool = true;
+	]
+	end_else;
+	output(c3)
+
+	for(;;;) output(a1);
+
+	do while a1<20h 
+		a1=a1+1e+1;
+}
+
+
+
+
+
+
+
+
