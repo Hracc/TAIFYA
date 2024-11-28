@@ -19,6 +19,12 @@
     <Filter Include="Исходные файлы\lexer">
       <UniqueIdentifier>{b91c8ec6-9b47-4090-882f-6df427675961}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\syntax">
+      <UniqueIdentifier>{c7472af3-c6fc-492c-885b-ba16749b5531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\syntax">
+      <UniqueIdentifier>{4189ed23-663c-43fe-8abd-1bc32f0c51df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,8 +36,14 @@
     <ClCompile Include="LexerFunc.cpp">
       <Filter>Исходные файлы\lexer</Filter>
     </ClCompile>
+    <ClCompile Include="SyntaxScan.cpp">
+      <Filter>Исходные файлы\syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="SyntaxFunc.cpp">
+      <Filter>Исходные файлы\syntax</Filter>
+    </ClCompile>
     <ClCompile Include="Tables.cpp">
-      <Filter>Исходные файлы\lexer</Filter>
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="lexerErrReport.h">
       <Filter>Файлы заголовков\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="syntax.h">
+      <Filter>Файлы заголовков\syntax</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

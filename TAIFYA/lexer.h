@@ -55,9 +55,11 @@ enum states {
 extern int z;
 extern char CH;
 extern string S;
+// Прочее переменные
 extern bool canRead;
+extern bool printStatus;
 //Лексический анализатор
-bool scan();
+bool lexScan();
 //Чтение символа
 void gc();
 //Проверка символа на  букву или число

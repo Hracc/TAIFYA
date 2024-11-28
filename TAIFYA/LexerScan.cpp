@@ -5,13 +5,15 @@
 #include "tables.h"
 #include "lexerErrReport.h"
 
-bool scan() {
+bool lexScan() {
 	char lowerCH;
-	std::cout << "Lexer: Start: " << std::endl;
+	std::cout << "Lexer: Start" << std::endl;
 	states CS;
 	CS = H;
 	gc();
-	std::cout << "Line 1 :"<< endl;
+	if (printStatus) {
+		std::cout << "Line 1 :" << endl;
+	}
 	while (CS != V) {
 		switch (CS) {
 // Стандартное состояниe
@@ -20,7 +22,9 @@ bool scan() {
 			while (isspace(CH) && canRead) {
 				if (CH == '\n') {
 					line++;
-					std::cout << "Line: " << line << endl;
+					if (printStatus) {
+						std::cout << "Line: " << line << endl;
+					}
 				}
 				gc();
 			}

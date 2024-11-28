@@ -59,7 +59,9 @@ void put(unordered_map<string, int>& table) {
 	if (it == table.end()) {
 		z = table.size() + 1;
 		table[S] = z;
-		std::cout << "\t put & ";
+		if (printStatus) {
+			std::cout << "\t put & ";
+		}
 		wasPut = true;
 	}
 	else {
@@ -94,12 +96,14 @@ void printLex(int t, int v) {
 	}
 	string key = findKeyByValue(table, v);
 	if (!key.empty()) {
-		if (wasPut) {
-			std::cout << "out: " << t << ", " << v << " : " << key << endl;
-			wasPut = false;
-		}
-		else {
-			std::cout << "\t out: " << t << ", " << v << " : " << key << endl;
+		if (printStatus) {
+			if (wasPut) {
+				std::cout << "out: " << t << ", " << v << " : " << key << endl;
+				wasPut = false;
+			}
+			else {
+				std::cout << "\t out: " << t << ", " << v << " : " << key << endl;
+			}
 		}
 	}
 	else {

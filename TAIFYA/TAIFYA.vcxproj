@@ -129,12 +129,15 @@
   <ItemGroup>
     <ClInclude Include="lexer.h" />
     <ClInclude Include="lexerErrReport.h" />
+    <ClInclude Include="syntax.h" />
     <ClInclude Include="tables.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LexerFunc.cpp" />
     <ClCompile Include="LexerScan.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SyntaxFunc.cpp" />
+    <ClCompile Include="SyntaxScan.cpp" />
     <ClCompile Include="Tables.cpp" />
   </ItemGroup>
   <ItemGroup>
