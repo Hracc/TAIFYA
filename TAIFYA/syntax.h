@@ -12,8 +12,13 @@ using std::ifstream;
 using std::endl;
 
 extern string lex;
+extern bool scanStatus;
+extern bool isID;
+extern bool isNumb;
+
 bool syntaxScan();
 void gl();
 bool EQ(string S);
-bool ID();
-extern bool isID;
+//bool ID();
+
+void err_proc();

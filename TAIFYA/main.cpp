@@ -10,6 +10,7 @@ bool printStatus = false;
 int main() {
 	if (lexScan()) {
 		std::cout<< "Lexer: Success"<< std::endl;
+		saveLexemesToFile("lexems.txt");
 		if (syntaxScan()) {
 			std::cout << "Syntax: Success" << std::endl;
 		}
@@ -20,7 +21,6 @@ int main() {
 	else {
 		std::cout << "Lexer: Failed" << std::endl;
 	}
-	saveLexemesToFile("lexems.txt");
 
 
 	return 0;

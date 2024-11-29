@@ -18,8 +18,7 @@ unordered_map<string, int> TW = {
 
     {"do", 12},
     {"while", 13},
-    { "loop", 14 }
-    ,
+    { "loop", 14 },
     {"input", 15},
     {"output", 16},
 

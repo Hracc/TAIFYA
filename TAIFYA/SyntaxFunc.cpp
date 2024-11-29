@@ -7,11 +7,12 @@
 
 vector<std::pair<int, int>> lexems;
 ifstream lexFile("lexems.txt");
-bool isID;
+bool isID, isNumb;
 
 void gl() {
     unordered_map<string, int> table;
     isID = false;
+    isNumb = false;
 
     if (!lexFile.is_open()) {
         std::cerr << "Err1:" << std::endl;
@@ -28,6 +29,7 @@ void gl() {
             break;
         case 3:
             table = TN;
+            isNumb = true;
             break;
         case 4:
             table = TI;
@@ -37,7 +39,7 @@ void gl() {
         for (const auto& pair : table) {
             if (pair.second == value) {
                 lex = pair.first;
-                std::cout << lex << endl;
+                //std::cout << lex << endl;
             }
         }
     }
@@ -45,4 +47,8 @@ void gl() {
 
 bool EQ(string S) {
     return lex==S;
+}
+
+void err_proc() {
+    scanStatus = false;
 }
