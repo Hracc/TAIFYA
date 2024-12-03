@@ -5,7 +5,6 @@
 bool scanStatus = true;
 string lex;
 
-
 // Прототипы функций:
 //Программ
 void PR();
@@ -46,13 +45,11 @@ void PR() {
 		gl();
 		BODY();
 		if (!EQ("}")) {
-			err_proc();
-			std::cout << "err" << endl;
+			err_proc("}");
 		}
 	}
 	else {
-		std::cout << "err" << endl;
-
+		err_proc("{");
 	}
 }
 
@@ -64,31 +61,28 @@ void BODY() {
 			gl();
 			DESCR();
 			if (!EQ(";")) {
-				err_proc();
+				err_proc(";");
 				break;
 			}
 			continue;
 		}
 		else if (EQ("[") || 
-			EQ("let") || EQ("if") || EQ("for") || EQ("do") || EQ("input") || EQ("output")) {
+			EQ("let") || EQ("if") ||
+			EQ("for") || EQ("do") || 
+			EQ("input") || EQ("output")) {
 			OPER();
 			if (EQ(";")) {
 				gl();
 			}
 			else {
-				err_proc();
+				err_proc(";");
 				break;
 			}
 			continue;
 		}
-		else if (EQ("{")) {
-			err_proc();
-			break;
-		}
 		else {
 			std::cout << lex << endl;
-
-			err_proc();
+			err_proc(ErrorType::UnexpectedLexem);
 		}
 		gl();
 	} while (scanStatus && !EQ("}"));
@@ -104,11 +98,10 @@ void DESCR() {
 				gl();
 			} 
 			else {
-				err_proc();
 			}
 		}
 		else {
-			err_proc();
+			err_proc(":");
 		}
 	}
 	if (scanStatus) {
@@ -117,7 +110,7 @@ void DESCR() {
 			gl();
 		}
 		else {
-			err_proc();
+			err_proc(ErrorType::ExpectedType);
 		}
 	}
 }
@@ -146,7 +139,7 @@ void OPER() {
 		OUTPUT();
 	}
 	else {
-		err_proc();
+		err_proc(ErrorType::UnexpectedLexem);
 	}
 }
 void SOSTAVNOY() {
@@ -156,7 +149,7 @@ void SOSTAVNOY() {
 		gl();
 	}
 	else {
-		err_proc();
+		err_proc("]");
 	}
 }
 void PRISV() {
@@ -168,11 +161,11 @@ void PRISV() {
 			VIRAGENIYA();
 		}
 		else {
-			err_proc();
+			err_proc("=");
 		}
 	}
 	else {
-		err_proc();
+		err_proc(ErrorType::ExpectedIdentifier);
 	}
 }
 
@@ -190,13 +183,14 @@ void IF() {
 			gl();
 		}
 		else {
-			err_proc();
+			err_proc("end_else");
 		}
 	}
 	else {
-		err_proc();
+		err_proc("then");
 	}
 }
+
 void FOR() {
 	gl();
 	if (EQ("(")) {
@@ -212,7 +206,7 @@ void FOR() {
 					gl();
 				}
 				else {
-					err_proc();
+					err_proc(";");
 				}
 			}
 		}
@@ -230,12 +224,12 @@ void FOR() {
 
 					}
 					else {
-						err_proc();
+						err_proc(";");
 					}
 				}
 			}
 			else {
-				err_proc();
+				err_proc(";");
 			}
 		}
 		if (EQ(")")) {
@@ -249,14 +243,15 @@ void FOR() {
 				OPER();
 			}
 			else {
-				err_proc();
+				err_proc(")");
 			}
 		}
 	}
 	else {
-		err_proc();
+		err_proc("(");
 	}
 }
+
 void DOWHILE() {
 	gl();
 	if (EQ("while")) {
@@ -267,11 +262,11 @@ void DOWHILE() {
 			gl();
 		}
 		else {
-			err_proc();
+			err_proc("loop");
 		}
 	}
 	else {
-		err_proc();
+		err_proc("while");
 	}
 }
 
@@ -283,12 +278,22 @@ void INPUT() {
 		{
 			if (isID) {
 				gl();
-			};
-		} while (!EQ(")"));
-		gl();
+			}
+			else {
+				err_proc(ErrorType::ExpectedIdentifier);
+				break;
+			}
+		} while (!EQ(")") && scanStatus);
+		
+		if (EQ(")")) {
+			gl();
+		}
+		else {
+			err_proc(")");
+		}
 	}
 	else {
-		err_proc();
+		err_proc("(");
 	}
 }
 
@@ -299,11 +304,17 @@ void OUTPUT() {
 		do
 		{
 			VIRAGENIYA();
-		} while (!EQ(")"));
-		gl();
+		} while (!EQ(")") && scanStatus);
+
+		if (EQ(")")) {
+			gl();
+		}
+		else {
+			err_proc(")");
+		}
 	}
 	else {
-		err_proc();
+		err_proc("(");
 	}
 }
 
@@ -346,10 +357,10 @@ void MNOG() {
 			gl();
 		}
 		else {
-			err_proc();
+			err_proc(")");
 		}
 	}
 	else {
-		err_proc();
+		err_proc(ErrorType::InvalidExpression);
 	}
 }

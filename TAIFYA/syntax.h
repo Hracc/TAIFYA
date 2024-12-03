@@ -21,4 +21,12 @@ void gl();
 bool EQ(string S);
 //bool ID();
 
-void err_proc();
+enum class ErrorType {
+    ExpectedType,
+    UnexpectedLexem,
+    ExpectedIdentifier,
+    InvalidExpression
+};
+
+void err_proc(string symbol);
+void err_proc(ErrorType err);

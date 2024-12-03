@@ -49,6 +49,22 @@ bool EQ(string S) {
     return lex==S;
 }
 
-void err_proc() {
+void err_proc(ErrorType err) {
+    switch (err) {
+    case ErrorType::ExpectedType:
+        std::cout << "[Err]: Expected type for Identifier"<< endl;
+    case ErrorType::UnexpectedLexem:
+        std::cout << "[Err]: Unexpected lexem in body of programm" << endl;
+    case ErrorType::ExpectedIdentifier:
+        std::cout << "[Err]: Expected identifier" << endl;
+    case ErrorType::InvalidExpression:
+        std::cout << "[Err]: Invalid Expression" << endl;
+    }
+
+    scanStatus = false;
+}
+
+void err_proc(string symbol) {
+    std::cout << "[Err]:Missed lexem: '"<< symbol <<"'" << endl;
     scanStatus = false;
 }
