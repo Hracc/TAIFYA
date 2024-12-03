@@ -29,7 +29,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 850,
+          "DockedHeight": 743,
           "SelectedChildIndex": 1,
           "Children": [
             {
@@ -53,7 +53,7 @@
               "RelativeDocumentMoniker": "TAIFYA\\SyntaxScan.cpp",
               "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\SyntaxScan.cpp",
               "RelativeToolTip": "TAIFYA\\SyntaxScan.cpp",
-              "ViewState": "AgIAAKAAAAAAAAAAAAAswK0AAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAANYAAAAAAAAAAAAQwNkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-28T08:01:25.197Z",
               "EditorCaption": ""
@@ -66,7 +66,7 @@
               "RelativeDocumentMoniker": "TAIFYA\\SyntaxFunc.cpp",
               "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\SyntaxFunc.cpp",
               "RelativeToolTip": "TAIFYA\\SyntaxFunc.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAgwCkAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-27T06:55:13.628Z",
               "EditorCaption": ""
@@ -74,7 +74,7 @@
           ]
         },
         {
-          "DockedHeight": 566,
+          "DockedHeight": 673,
           "SelectedChildIndex": 1,
           "Children": [
             {
@@ -87,8 +87,7 @@
               "RelativeToolTip": "TAIFYA\\main.cpp",
               "ViewState": "AgIAABoAAAAAAAAAAAAAAAYAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-29T09:24:58.099Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T09:24:58.099Z"
             },
             {
               "$type": "Document",
@@ -98,7 +97,7 @@
               "RelativeDocumentMoniker": "TAIFYA\\input.txt",
               "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt",
               "RelativeToolTip": "TAIFYA\\input.txt",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAowA0AAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
               "WhenOpened": "2024-11-29T08:04:05.11Z",
               "EditorCaption": ""

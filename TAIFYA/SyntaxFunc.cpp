@@ -39,7 +39,7 @@ void gl() {
         for (const auto& pair : table) {
             if (pair.second == value) {
                 lex = pair.first;
-                //std::cout << lex << endl;
+                std::cout << lex << endl;
             }
         }
     }

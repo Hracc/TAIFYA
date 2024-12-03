@@ -6,18 +6,23 @@ bool scanStatus = true;
 string lex;
 
 
-// Прототипы фнукций
+// Прототипы функций:
+//Программ
 void PR();
 void BODY();
-
+//Описание
 void DESCR();
-
+//Оператор
 void OPER();
+// Для Оператора
 void SOSTAVNOY();
 void PRISV();
+void IF();
+void FOR();
+void DOWHILE();
 void INPUT();
 void OUTPUT();
-
+// Пр. для Операторов
 void VIRAGENIYA();
 void OPERAND();
 void SLAG();
@@ -64,7 +69,8 @@ void BODY() {
 			}
 			continue;
 		}
-		else if (EQ("[") || EQ("let") || EQ("if") || EQ("for") || EQ("do") || EQ("input") || EQ("output")) {
+		else if (EQ("[") || 
+			EQ("let") || EQ("if") || EQ("for") || EQ("do") || EQ("input") || EQ("output")) {
 			OPER();
 			if (EQ(";")) {
 				gl();
@@ -124,6 +130,15 @@ void OPER() {
 	else if (EQ("let")) {
 		PRISV();
 	}
+	else if (EQ("if")) {
+		IF();
+	}
+	else if (EQ("for")) {
+		FOR();
+	}
+	else if (EQ("do")) {
+		DOWHILE();
+	}
 	else if (EQ("input")) {
 		INPUT();
 	}
@@ -151,6 +166,105 @@ void PRISV() {
 		if (EQ("=")) {
 			gl();
 			VIRAGENIYA();
+		}
+		else {
+			err_proc();
+		}
+	}
+	else {
+		err_proc();
+	}
+}
+
+void IF() {
+	gl();
+	VIRAGENIYA();
+	if (EQ("then")) {
+		gl();
+		OPER();
+		if (EQ("else")) {
+			gl();
+			OPER();
+		}
+		if (EQ("end_else")) {
+			gl();
+		}
+		else {
+			err_proc();
+		}
+	}
+	else {
+		err_proc();
+	}
+}
+void FOR() {
+	gl();
+	if (EQ("(")) {
+		gl();
+		if (EQ(";")) {
+			gl();
+			if (EQ(";")) {
+				gl();
+			}
+			else {
+				VIRAGENIYA();
+				if (EQ(";")) {
+					gl();
+				}
+				else {
+					err_proc();
+				}
+			}
+		}
+		else {
+			VIRAGENIYA();
+			if (EQ(";")) {
+				gl();
+				if (EQ(";")) {
+					gl();
+				}
+				else {
+					VIRAGENIYA();
+					if (EQ(";")) {
+						gl();
+
+					}
+					else {
+						err_proc();
+					}
+				}
+			}
+			else {
+				err_proc();
+			}
+		}
+		if (EQ(")")) {
+			gl();
+			OPER();
+		}
+		else {
+			VIRAGENIYA();
+			if (EQ(")")) {
+				gl();
+				OPER();
+			}
+			else {
+				err_proc();
+			}
+		}
+	}
+	else {
+		err_proc();
+	}
+}
+void DOWHILE() {
+	gl();
+	if (EQ("while")) {
+		gl();
+		VIRAGENIYA();
+		OPER();
+		if (EQ("loop")) {
+			gl();
 		}
 		else {
 			err_proc();
