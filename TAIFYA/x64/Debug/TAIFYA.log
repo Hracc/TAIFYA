@@ -1,2 +1,7 @@
-﻿  SyntaxFunc.cpp
+﻿  LexerFunc.cpp
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerFunc.cpp(60,20): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  LexerScan.cpp
+  main.cpp
+  Создание кода...
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerScan.cpp(595,1): warning C4715: lexScan: значение возвращается не при всех путях выполнения
   TAIFYA.vcxproj -> C:\Users\79379\Documents\GitHub\TAIFYA\x64\Debug\TAIFYA.exe

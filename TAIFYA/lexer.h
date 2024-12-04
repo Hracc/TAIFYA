@@ -12,14 +12,6 @@ using std::vector;
 using std::ifstream;
 using std::endl;
 
-
-struct Lexeme {
-	int tableNumb;
-	int valueNumb;
-};
-
-extern vector<Lexeme> lexemes;
-
 enum states {
 	H,
 	I,
@@ -55,23 +47,42 @@ enum states {
 extern int z;
 extern char CH;
 extern string S;
+
 // Прочее переменные
 extern bool canRead;
 extern bool printStatus;
+
 //Лексический анализатор
 bool lexScan();
+
 //Чтение символа
 void gc();
+
 //Проверка символа на  букву или число
 bool let();
 bool digit();
+
 // Управление S
 void add();
 void nill();
+
 // Создание, добавление и поиск значения в таблицах
 void put(unordered_map<string, int>& table);
 void out(int tableNumb, int valueNumb);
 void look(unordered_map<string, int>& table);
+
+//Обработка ошибок
+using std::string;
+enum class LexerErr {
+	MissingClosingBrace,
+	InvalidNumberFormat,
+	UnknownSymbol,
+	MissingClosingComment
+};
+extern unsigned int line;
+void reportErr(LexerErr errorType);
+void reportErr(LexerErr errorType, char CH);
+
 // Прочее функции для удобства
 void saveLexemesToFile(const string& filename);
 bool checkTL();

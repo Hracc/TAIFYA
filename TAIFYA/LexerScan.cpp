@@ -2,8 +2,8 @@
 #include <iostream>
 
 #include "lexer.h"
+#include "lexem.h"
 #include "tables.h"
-#include "lexerErrReport.h"
 
 bool lexScan() {
 	char lowerCH;
@@ -32,7 +32,7 @@ bool lexScan() {
 			// Проверка на конец файла
 			if (!canRead) {
 				CS = ER;
-				reportErr(ErrorType::MissingClosingBrace);
+				reportErr(LexerErr::MissingClosingBrace);
 			}
 			// Служебные слова и идентификаторы
 			else if (let()) {
@@ -177,7 +177,7 @@ bool lexScan() {
 				CS = _10E;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -225,7 +225,7 @@ bool lexScan() {
 				CS = _10E;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -264,7 +264,7 @@ bool lexScan() {
 				CS = _10E;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -282,7 +282,7 @@ bool lexScan() {
 				CS = _16E;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -304,7 +304,7 @@ bool lexScan() {
 				CS = H;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -315,7 +315,7 @@ bool lexScan() {
 				CS = H;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -337,7 +337,7 @@ bool lexScan() {
 				CS = H;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -348,7 +348,7 @@ bool lexScan() {
 				CS = H;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -370,7 +370,7 @@ bool lexScan() {
 				CS = H;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -391,7 +391,7 @@ bool lexScan() {
 					CS = H;
 				}
 				else {
-					reportErr(ErrorType::InvalidNumberFormat);
+					reportErr(LexerErr::InvalidNumberFormat);
 					CS = ER;
 				}
 			}
@@ -421,7 +421,7 @@ bool lexScan() {
 					out(3, z);
 				}
 				else {
-					reportErr(ErrorType::InvalidNumberFormat);
+					reportErr(LexerErr::InvalidNumberFormat);
 					CS = ER;
 				}
 				break;
@@ -442,7 +442,7 @@ bool lexScan() {
 				CS = H;
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -462,12 +462,12 @@ bool lexScan() {
 					CS = H;
 				}
 				else {
-					reportErr(ErrorType::InvalidNumberFormat);
+					reportErr(LexerErr::InvalidNumberFormat);
 					CS = ER;
 				}
 			}
 			else {
-				reportErr(ErrorType::InvalidNumberFormat);
+				reportErr(LexerErr::InvalidNumberFormat);
 				CS = ER;
 			}
 			break;
@@ -510,7 +510,7 @@ bool lexScan() {
 				gc();
 			}
 			if (!canRead) {
-				reportErr(ErrorType::MissingClosingComment);
+				reportErr(LexerErr::MissingClosingComment);
 				CS = ER;
 			} 
 			else {
@@ -581,7 +581,7 @@ bool lexScan() {
 			add();
 			look(TL);
 			if (z==0) {
-				reportErr(ErrorType::UnknownSymbol, CH);
+				reportErr(LexerErr::UnknownSymbol, CH);
 				CS = ER;
 			} else
 			{

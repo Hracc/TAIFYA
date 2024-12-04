@@ -5,15 +5,15 @@
 bool scanStatus = true;
 string lex;
 
-// Прототипы функций:
-//Программ
+// РџСЂРѕС‚РѕС‚РёРїС‹ С„СѓРЅРєС†РёР№:
+//РџСЂРѕРіСЂР°РјРј
 void PR();
 void BODY();
-//Описание
+//РћРїРёСЃР°РЅРёРµ
 void DESCR();
-//Оператор
+//РћРїРµСЂР°С‚РѕСЂ
 void OPER();
-// Для Оператора
+// Р”Р»СЏ РћРїРµСЂР°С‚РѕСЂР°
 void SOSTAVNOY();
 void PRISV();
 void IF();
@@ -21,7 +21,7 @@ void FOR();
 void DOWHILE();
 void INPUT();
 void OUTPUT();
-// Пр. для Операторов
+// РџСЂ. РґР»СЏ РћРїРµСЂР°С‚РѕСЂРѕРІ
 void VIRAGENIYA();
 void OPERAND();
 void SLAG();
@@ -31,14 +31,14 @@ void MNOG();
 
 
 
-//Начало синтаксического анализа
+//РќР°С‡Р°Р»Рѕ СЃРёРЅС‚Р°РєСЃРёС‡РµСЃРєРѕРіРѕ Р°РЅР°Р»РёР·Р°
 bool syntaxScan() {
 	std::cout << "Syntax: Begin" << std::endl;
 	PR();
 	return scanStatus;
 }
 
-//Начало и конец программы
+//РќР°С‡Р°Р»Рѕ Рё РєРѕРЅРµС† РїСЂРѕРіСЂР°РјРјС‹
 void PR() {
 	gl();
 	if (EQ("{")) {
@@ -53,7 +53,7 @@ void PR() {
 	}
 }
 
-//Тело программы
+//РўРµР»Рѕ РїСЂРѕРіСЂР°РјРјС‹
 void BODY() {
 	std::cout << "BODY" << endl;
 	do {
@@ -82,13 +82,13 @@ void BODY() {
 		}
 		else {
 			std::cout << lex << endl;
-			err_proc(ErrorType::UnexpectedLexem);
+			err_proc(SyntaxErr::UnexpectedLexem);
 		}
 		gl();
 	} while (scanStatus && !EQ("}"));
 }
 
-//Описание
+//РћРїРёСЃР°РЅРёРµ
 void DESCR() {
 	std::cout << "DESCR" << endl;
 	while (!EQ(":") && scanStatus) {
@@ -110,12 +110,12 @@ void DESCR() {
 			gl();
 		}
 		else {
-			err_proc(ErrorType::ExpectedType);
+			err_proc(SyntaxErr::ExpectedType);
 		}
 	}
 }
 
-// Операции
+// РћРїРµСЂР°С†РёРё
 void OPER() {
 	if (EQ("[")) {
 		SOSTAVNOY();
@@ -139,7 +139,7 @@ void OPER() {
 		OUTPUT();
 	}
 	else {
-		err_proc(ErrorType::UnexpectedLexem);
+		err_proc(SyntaxErr::UnexpectedLexem);
 	}
 }
 void SOSTAVNOY() {
@@ -165,7 +165,7 @@ void PRISV() {
 		}
 	}
 	else {
-		err_proc(ErrorType::ExpectedIdentifier);
+		err_proc(SyntaxErr::ExpectedIdentifier);
 	}
 }
 
@@ -280,7 +280,7 @@ void INPUT() {
 				gl();
 			}
 			else {
-				err_proc(ErrorType::ExpectedIdentifier);
+				err_proc(SyntaxErr::ExpectedIdentifier);
 				break;
 			}
 		} while (!EQ(")") && scanStatus);
@@ -361,6 +361,6 @@ void MNOG() {
 		}
 	}
 	else {
-		err_proc(ErrorType::InvalidExpression);
+		err_proc(SyntaxErr::InvalidExpression);
 	}
 }

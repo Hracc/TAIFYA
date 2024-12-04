@@ -21,7 +21,7 @@ void gl();
 bool EQ(string S);
 //bool ID();
 
-enum class ErrorType {
+enum class SyntaxErr {
     ExpectedType,
     UnexpectedLexem,
     ExpectedIdentifier,
@@ -29,4 +29,4 @@ enum class ErrorType {
 };
 
 void err_proc(string symbol);
-void err_proc(ErrorType err);
+void err_proc(SyntaxErr err);

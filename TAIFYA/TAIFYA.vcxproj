@@ -127,8 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="lexem.h" />
     <ClInclude Include="lexer.h" />
-    <ClInclude Include="lexerErrReport.h" />
     <ClInclude Include="syntax.h" />
     <ClInclude Include="tables.h" />
   </ItemGroup>

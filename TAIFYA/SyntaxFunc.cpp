@@ -4,11 +4,10 @@
 #include "syntax.h"
 #include "tables.h"
 
-
 vector<std::pair<int, int>> lexems;
 ifstream lexFile("lexems.txt");
 bool isID, isNumb;
-
+//Чтение лексем
 void gl() {
     unordered_map<string, int> table;
     isID = false;
@@ -49,15 +48,15 @@ bool EQ(string S) {
     return lex==S;
 }
 
-void err_proc(ErrorType err) {
+void err_proc(SyntaxErr err) {
     switch (err) {
-    case ErrorType::ExpectedType:
+    case SyntaxErr::ExpectedType:
         std::cout << "[Err]: Expected type for Identifier"<< endl;
-    case ErrorType::UnexpectedLexem:
+    case SyntaxErr::UnexpectedLexem:
         std::cout << "[Err]: Unexpected lexem in body of programm" << endl;
-    case ErrorType::ExpectedIdentifier:
+    case SyntaxErr::ExpectedIdentifier:
         std::cout << "[Err]: Expected identifier" << endl;
-    case ErrorType::InvalidExpression:
+    case SyntaxErr::InvalidExpression:
         std::cout << "[Err]: Invalid Expression" << endl;
     }
 

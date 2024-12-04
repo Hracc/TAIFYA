@@ -1,7 +1,7 @@
 #include "lexer.h"
+#include "lexem.h"
 #include "tables.h"
 
-#include "lexerErrReport.h"
 
 using std::ofstream;
 
@@ -160,16 +160,16 @@ void saveLexemesToFile(const string& filename) {
 	}
 }
 
-void reportErr(ErrorType errorType) {
+void reportErr(LexerErr errorType) {
 	std::cerr << "[LexError] Line " << line << ": ";
 	switch (errorType) {
-	case ErrorType::MissingClosingBrace:
+	case LexerErr::MissingClosingBrace:
 		std::cerr << "Missing closing brace '}'." << std::endl;
 		break;
-	case ErrorType::MissingClosingComment:
+	case LexerErr::MissingClosingComment:
 		std::cerr << "Missing closing brace '*/'." << std::endl;
 		break;
-	case ErrorType::InvalidNumberFormat:
+	case LexerErr::InvalidNumberFormat:
 		std::cerr << "Invalid number format" << std::endl;
 		break;
 	default:
@@ -178,9 +178,9 @@ void reportErr(ErrorType errorType) {
 	}
 }
 
-void reportErr(ErrorType errortype, char CH) {
+void reportErr(LexerErr errortype, char CH) {
 	switch (errortype) {
-	case ErrorType::UnknownSymbol:
+	case LexerErr::UnknownSymbol:
 		std::cerr << "Unknown symbol: '" << CH << "'" << std::endl;
 		break;
 	}
