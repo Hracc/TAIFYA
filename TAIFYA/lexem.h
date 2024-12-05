@@ -3,6 +3,7 @@
 
 using std::vector;
 
+
 struct Lexeme {
 	int tableNumb;
 	int valueNumb;

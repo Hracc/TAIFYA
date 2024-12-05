@@ -3,45 +3,47 @@
 
 #include "syntax.h"
 #include "tables.h"
+#include "lexem.h"
 
-vector<std::pair<int, int>> lexems;
-ifstream lexFile("lexems.txt");
+#include "tree.h"
+
+size_t currentLexemeIndex = 0;
 bool isID, isNumb;
 //Чтение лексем
 void gl() {
-    unordered_map<string, int> table;
     isID = false;
     isNumb = false;
 
-    if (!lexFile.is_open()) {
-        std::cerr << "Err1:" << std::endl;
-    }
     int tableNumb, value;
     char comma;
-    if (lexFile >> tableNumb >> comma >> value) {
-        switch (tableNumb) {
-        case 1:
-            table = TW;
+
+    Lexeme& currentLexeme = lexemes[currentLexemeIndex];
+    unordered_map<string, int> table;
+
+    switch (currentLexeme.tableNumb) {
+    case 1:
+        table = TW;
+        break;
+    case 2:
+        table = TL;
+        break;
+    case 3:
+        table = TN;
+        isNumb = true;
+        break;
+    case 4:
+        table = TI;
+        isID = true;
+        break;
+    }
+    for (const auto& pair : table) {
+        if (pair.second == currentLexeme.valueNumb) {
+            lex = pair.first;
+            std::cout << lex << endl;
             break;
-        case 2:
-            table = TL;
-            break;
-        case 3:
-            table = TN;
-            isNumb = true;
-            break;
-        case 4:
-            table = TI;
-            isID = true;
-            break;
-        }
-        for (const auto& pair : table) {
-            if (pair.second == value) {
-                lex = pair.first;
-                std::cout << lex << endl;
-            }
         }
     }
+    currentLexemeIndex++;
 }
 
 bool EQ(string S) {

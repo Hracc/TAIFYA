@@ -60,7 +60,10 @@ void BODY() {
 		if (isID) {
 			gl();
 			DESCR();
-			if (!EQ(";")) {
+			if (EQ(";")) {
+				gl();
+			}
+			else {
 				err_proc(";");
 				break;
 			}
@@ -81,7 +84,6 @@ void BODY() {
 			continue;
 		}
 		else {
-			std::cout << lex << endl;
 			err_proc(SyntaxErr::UnexpectedLexem);
 		}
 		gl();
@@ -111,6 +113,12 @@ void DESCR() {
 		}
 		else {
 			err_proc(SyntaxErr::ExpectedType);
+		}
+		if (EQ(";")) {
+			gl();
+		}	
+		else{
+			err_proc(";");
 		}
 	}
 }
