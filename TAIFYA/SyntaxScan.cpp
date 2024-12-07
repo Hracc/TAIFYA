@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "syntax.h"
+#include "syntaxTree.h"
 
 
 bool scanStatus = true;
@@ -8,10 +9,10 @@ string lex;
 
 // Прототипы функций:
 //Программ
-void PR();
-void BODY();
+std::shared_ptr<Node> PR();
+std::shared_ptr<Node> BODY();
 //Описание
-void DESCR();
+std::shared_ptr<Node> DESCR();
 //Оператор
 void OPER();
 // Для Оператора
@@ -35,16 +36,30 @@ void MNOG();
 //Начало синтаксического анализа
 bool syntaxScan() {
 	std::cout << "Syntax: Begin" << std::endl;
-	PR();
+
+	Node::printTree(PR(), "", false);
+
 	return scanStatus;
 }
 
 //Начало и конец программы
-void PR() {
+std::shared_ptr<Node> PR() {
+
+	std::shared_ptr<Node> root = std::make_shared<Node>(
+		NodeType::PROGRAM, 
+		std::make_pair(1,1), 
+		"Programm"
+	);
+
 	gl();
 	if (EQ("{")) {
 		gl();
-		BODY();
+
+		std::shared_ptr<Node> child = BODY();
+		if (child){
+			root->addChild(child);
+		}
+		
 		if (!EQ("}")) {
 			err_proc("}");
 		}
@@ -52,14 +67,16 @@ void PR() {
 	else {
 		err_proc("{");
 	}
+
+	return root;
 }
 
 //Тело программы
-void BODY() {
-	do {
+std::shared_ptr<Node> BODY() {
+	while (scanStatus && !EQ("}")) {
 		if (isID) {
 			gl();
-			DESCR();
+			return DESCR();
 			if (EQ(";")) {
 				gl();
 			}
@@ -87,15 +104,23 @@ void BODY() {
 			err_proc(SyntaxErr::UnexpectedLexem);
 		}
 		gl();
-	} while (scanStatus && !EQ("}"));
+	}
+	return nullptr;
 }
 
 //Описание
-void DESCR() {
+std::shared_ptr<Node> DESCR() {
+	std::shared_ptr<Node> typeNode = std::make_shared<Node>(
+		NodeType::DECLARATION,
+		std::make_pair(1, 1),
+		"Declaration"
+	);
+
 	while (!EQ(":") && scanStatus) {
 		if (EQ(",")) {
 			gl();
 			if (isID) {
+				
 				gl();
 			}
 			else {
@@ -108,6 +133,7 @@ void DESCR() {
 	if (scanStatus) {
 		gl();
 		if (EQ("%") || EQ("!") || EQ("$")) {
+
 			gl();
 		}
 		else {
@@ -120,6 +146,7 @@ void DESCR() {
 			err_proc(";");
 		}
 	}
+	return typeNode;
 }
 
 // Операции

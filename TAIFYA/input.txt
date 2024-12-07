@@ -1,29 +1,3 @@
 {
-	a1, b1, c1: %;;
-	flag: !;;
-	message: $;;  
-
-	let a1 = 10;
-    let b1 = 20;
-    let c1 = a1 + b1;
-
-	if a1 > b1 then [
-        let flag = false;
-    ] else [
-        let flag = true;
-        let c1 = c1 * 2;
-    ]
-    end_else;
-
-    for (i = 0; i < 10; a + b) [
-        let c1 = c1 + i;
-    ];
-
-    do while a1 > 0  
-        let a1 = a1 - 1
-    loop;
-
-    input(a1 b1);
-
-    output(a1 b1 c1);
+	a1:%;;
 }

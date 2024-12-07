@@ -39,7 +39,7 @@ struct Node {
 		else {
 			std::cout << "--- ";
 		}
-		std::cout << "\033[32m" << node->description << " (" << node->token.first << ", " << node->token.second << ") " << "\033[0m" << std::endl;
+		std::cout << node->description << " (" << node->token.first << ", " << node->token.second << ") " << std::endl;
 
 		// Рекурсивный вывод для всех детей
 		for (size_t i = 0; i < node->children.size(); ++i) {
