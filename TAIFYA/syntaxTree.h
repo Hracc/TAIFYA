@@ -7,6 +7,11 @@
 #include <vector>
 
 enum class NodeType {
+	INT,
+	DOUBLE,
+	BOOL,
+	IDENTIFIER,
+
 	PROGRAM,		// Начало программ
 	DECLARATION,	// Описание / Объявление переменных
 	OPERATOR,		// Оператор

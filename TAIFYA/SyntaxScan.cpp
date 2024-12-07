@@ -13,6 +13,8 @@ std::shared_ptr<Node> PR();
 std::shared_ptr<Node> BODY();
 //Описание
 std::shared_ptr<Node> DESCR();
+// Идентификаторы
+std::shared_ptr<Node> ID();
 //Оператор
 void OPER();
 // Для Оператора
@@ -55,11 +57,12 @@ std::shared_ptr<Node> PR() {
 	if (EQ("{")) {
 		gl();
 
-		std::shared_ptr<Node> child = BODY();
-		if (child){
-			root->addChild(child);
+		while (!EQ("}") && scanStatus) {
+			std::shared_ptr<Node> child = BODY();
+			if (child) {
+				root->addChild(child);
+			}
 		}
-		
 		if (!EQ("}")) {
 			err_proc("}");
 		}
@@ -73,54 +76,52 @@ std::shared_ptr<Node> PR() {
 
 //Тело программы
 std::shared_ptr<Node> BODY() {
-	while (scanStatus && !EQ("}")) {
-		if (isID) {
+	if (isID) {
+		std::shared_ptr<Node> descr = DESCR();
+		if (EQ(";")) {
 			gl();
-			return DESCR();
-			if (EQ(";")) {
-				gl();
-			}
-			else {
-				err_proc(";");
-				break;
-			}
-			continue;
-		}
-		else if (EQ("[") || 
-			EQ("let") || EQ("if") ||
-			EQ("for") || EQ("do") || 
-			EQ("input") || EQ("output")) {
-			OPER();
-			if (EQ(";")) {
-				gl();
-			}
-			else {
-				err_proc(";");
-				break;
-			}
-			continue;
+			return descr;
 		}
 		else {
-			err_proc(SyntaxErr::UnexpectedLexem);
+			err_proc(";");
 		}
-		gl();
 	}
+	else if (EQ("[") || 
+		EQ("let") || EQ("if") ||
+		EQ("for") || EQ("do") || 
+		EQ("input") || EQ("output")) {
+		OPER();
+		if (EQ(";")) {
+			gl();
+		}
+		else {
+			err_proc(";");
+		}
+	}
+	else {
+		err_proc(SyntaxErr::UnexpectedLexem);
+	}
+	//gl();
 	return nullptr;
 }
 
 //Описание
 std::shared_ptr<Node> DESCR() {
-	std::shared_ptr<Node> typeNode = std::make_shared<Node>(
+	std::shared_ptr<Node> declarationNode = std::make_shared<Node>(
 		NodeType::DECLARATION,
-		std::make_pair(1, 1),
-		"Declaration"
-	);
+		std::make_pair(1, 3),
+		"declaration");
+	
+	declarationNode->addChild(ID());
+	std::shared_ptr<Node> typeNode;
 
+	gl();
 	while (!EQ(":") && scanStatus) {
 		if (EQ(",")) {
 			gl();
 			if (isID) {
-				
+				std::cout << lex << endl;
+				declarationNode->addChild(ID());
 				gl();
 			}
 			else {
@@ -132,8 +133,25 @@ std::shared_ptr<Node> DESCR() {
 	}
 	if (scanStatus) {
 		gl();
-		if (EQ("%") || EQ("!") || EQ("$")) {
-
+		if (EQ("%")) {
+			typeNode = std::make_shared<Node>(
+				NodeType::INT,
+				std::make_pair(1, 3),
+				"% (int)");
+			gl();
+		}
+		else if (EQ("!")) {
+			typeNode = std::make_shared<Node>(
+				NodeType::DOUBLE,
+				std::make_pair(1, 4),
+				"! (double)");
+			gl();
+		}
+		else if (EQ("$")) {
+			typeNode = std::make_shared<Node>(
+				NodeType::BOOL,
+				std::make_pair(1, 5),
+				"$ (bool)");
 			gl();
 		}
 		else {
@@ -146,7 +164,17 @@ std::shared_ptr<Node> DESCR() {
 			err_proc(";");
 		}
 	}
-	return typeNode;
+	declarationNode->addChild(typeNode);
+	return declarationNode;
+}
+
+std::shared_ptr<Node> ID() {
+	std::shared_ptr<Node> operNode = std::make_shared<Node>(
+		NodeType::IDENTIFIER,
+		std::make_pair(1, 1),
+		"Operand(" + lex + ")"
+	);
+	return operNode;
 }
 
 // Операции
