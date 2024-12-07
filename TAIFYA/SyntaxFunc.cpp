@@ -5,8 +5,6 @@
 #include "tables.h"
 #include "lexem.h"
 
-#include "syntaxTree.h"
-
 size_t currentLexemeIndex = 0;
 bool isID, isNumb;
 //Чтение лексем
@@ -43,7 +41,7 @@ void gl() {
     for (const auto& pair : table) {
         if (pair.second == currentLexeme.valueNumb) {
             lex = pair.first;
-            std::cout << lex << endl;
+            //std::cout << lex << endl;
             break;
         }
     }

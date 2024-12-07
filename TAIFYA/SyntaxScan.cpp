@@ -2,6 +2,7 @@
 
 #include "syntax.h"
 
+
 bool scanStatus = true;
 string lex;
 
