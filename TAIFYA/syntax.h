@@ -19,13 +19,15 @@ extern bool isNumb;
 bool syntaxScan();
 void gl();
 bool EQ(string S);
-//bool ID();
+
+void checkAndAdvance(const std::string& expectedLexem);
 
 enum class SyntaxErr {
     ExpectedType,
     UnexpectedLexem,
     ExpectedIdentifier,
-    InvalidExpression
+    InvalidExpression,
+    OutOfBounds
 };
 
 void err_proc(string symbol);

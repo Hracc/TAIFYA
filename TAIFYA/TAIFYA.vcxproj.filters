@@ -59,7 +59,7 @@
     <ClInclude Include="lexem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="tree.h">
+    <ClInclude Include="syntaxTree.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -55,7 +55,6 @@ void PR() {
 
 //Тело программы
 void BODY() {
-	std::cout << "BODY" << endl;
 	do {
 		if (isID) {
 			gl();
@@ -92,13 +91,12 @@ void BODY() {
 
 //Описание
 void DESCR() {
-	std::cout << "DESCR" << endl;
 	while (!EQ(":") && scanStatus) {
 		if (EQ(",")) {
 			gl();
 			if (isID) {
 				gl();
-			} 
+			}
 			else {
 			}
 		}
@@ -150,9 +148,20 @@ void OPER() {
 		err_proc(SyntaxErr::UnexpectedLexem);
 	}
 }
+// Список операций:
+// Составнной
 void SOSTAVNOY() {
 	gl();
-	OPER();
+	do
+	{
+		OPER();
+		if (EQ(";")) {
+			gl();
+		}
+		else {
+			err_proc(";");
+		}
+	} while (!EQ("]") && scanStatus);
 	if (EQ("]")) {
 		gl();
 	}
@@ -160,6 +169,8 @@ void SOSTAVNOY() {
 		err_proc("]");
 	}
 }
+
+// Присваивание
 void PRISV() {
 	gl();
 	if (isID) {
@@ -177,6 +188,7 @@ void PRISV() {
 	}
 }
 
+// Условная операция
 void IF() {
 	gl();
 	VIRAGENIYA();
@@ -199,6 +211,8 @@ void IF() {
 	}
 }
 
+
+// Фиксированный цикл
 void FOR() {
 	gl();
 	if (EQ("(")) {
@@ -260,6 +274,8 @@ void FOR() {
 	}
 }
 
+
+// Условный цикл
 void DOWHILE() {
 	gl();
 	if (EQ("while")) {
@@ -278,6 +294,7 @@ void DOWHILE() {
 	}
 }
 
+// Операция ввода
 void INPUT() {
 	gl();
 	if (EQ("(")) {
@@ -305,6 +322,7 @@ void INPUT() {
 	}
 }
 
+// Операция вывода
 void OUTPUT() {
 	gl();
 	if (EQ("(")) {
@@ -328,7 +346,7 @@ void OUTPUT() {
 
 void VIRAGENIYA() {
 	OPERAND();
-	if (EQ("<") || EQ("<>") || EQ("<=") || EQ(">") || EQ(">=")) {
+	while (EQ("=") || EQ("<") || EQ("<>") || EQ("<=") || EQ(">") || EQ(">=")) {
 		gl();
 		OPERAND();
 	}
@@ -336,19 +354,21 @@ void VIRAGENIYA() {
 
 void OPERAND() {
 	SLAG();
-	if (EQ("+") || EQ("-") || EQ("or")) {
+	while (EQ("+") || EQ("-") || EQ("or")) {
 		gl();
 		SLAG();
 	}
 }
 
+
 void SLAG() {
 	MNOG();
-	if (EQ("*") || EQ("/") || EQ("and")) {
+	while (EQ("*") || EQ("/") || EQ("and")) {
 		gl();
-		SLAG();
+		MNOG();
 	}
 }
+
 
 void MNOG() {
 	if (isID || isNumb || EQ("true") || EQ("false")) {

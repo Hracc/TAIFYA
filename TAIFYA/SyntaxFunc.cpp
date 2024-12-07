@@ -5,12 +5,16 @@
 #include "tables.h"
 #include "lexem.h"
 
-#include "tree.h"
+#include "syntaxTree.h"
 
 size_t currentLexemeIndex = 0;
 bool isID, isNumb;
 //Чтение лексем
 void gl() {
+    if (currentLexemeIndex >= lexemes.size()) {
+        err_proc(SyntaxErr::OutOfBounds);
+        return;
+    }
     isID = false;
     isNumb = false;
 
@@ -46,22 +50,43 @@ void gl() {
     currentLexemeIndex++;
 }
 
+// Функции для упрощения кода
+//Проверка равенства S на нужную лексему
 bool EQ(string S) {
     return lex==S;
 }
 
+void checkAndAdvance(const std::string& expectedLexem) {
+    if (EQ(expectedLexem)) {
+        gl();
+    }
+    else {
+        err_proc(expectedLexem);
+    }
+}
+
+// Обработка ошибок
 void err_proc(SyntaxErr err) {
     switch (err) {
     case SyntaxErr::ExpectedType:
         std::cout << "[Err]: Expected type for Identifier"<< endl;
+        break;
     case SyntaxErr::UnexpectedLexem:
         std::cout << "[Err]: Unexpected lexem in body of programm" << endl;
+        break;
     case SyntaxErr::ExpectedIdentifier:
         std::cout << "[Err]: Expected identifier" << endl;
+        break;
     case SyntaxErr::InvalidExpression:
         std::cout << "[Err]: Invalid Expression" << endl;
+        break;
+    case SyntaxErr::OutOfBounds:
+        std::cerr << "[Err]: Out of bounds lexeme access" << std::endl;
+        scanStatus = false;
+        break;
+    default:
+        std::cerr << "[Err]: Unknown Error" << std::endl;
     }
-
     scanStatus = false;
 }
 

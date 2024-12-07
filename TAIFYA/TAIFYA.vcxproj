@@ -131,7 +131,7 @@
     <ClInclude Include="lexer.h" />
     <ClInclude Include="syntax.h" />
     <ClInclude Include="tables.h" />
-    <ClInclude Include="tree.h" />
+    <ClInclude Include="syntaxTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LexerFunc.cpp" />
