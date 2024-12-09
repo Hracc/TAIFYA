@@ -35,22 +35,32 @@ struct Node {
 		children.push_back(child);
 	}
 
+	static void printRoot(const std::shared_ptr<Node>& root) {
+		std::cout << root->description << " (" << root->token.first << ", " << root->token.second << ") " << std::endl;
+
+		for (size_t i = 0; i < root->children.size(); ++i) {
+			printTree(root->children[i], "", i == root->children.size() - 1);
+		}
+	}
+
 	static void printTree(const std::shared_ptr<Node>& node, const std::string& prefix = "", bool isLast = true) {
 		// Печатаем текущий узел
 		std::cout << prefix;
 		if (isLast) {
-			std::cout << "--- ";
+			std::cout << "`-- ";
 		}
 		else {
-			std::cout << "--- ";
+			std::cout << "|-- ";
 		}
 		std::cout << node->description << " (" << node->token.first << ", " << node->token.second << ") " << std::endl;
 
 		// Рекурсивный вывод для всех детей
 		for (size_t i = 0; i < node->children.size(); ++i) {
-			printTree(node->children[i], prefix + (isLast ? "    " : "|-- "), i == node->children.size() - 1);
+			printTree(node->children[i], prefix + (isLast ? "\t" : "| "), i == node->children.size() - 1);
 		}
 	}
 };
+
+extern std::shared_ptr<Node> root;
 
 #endif

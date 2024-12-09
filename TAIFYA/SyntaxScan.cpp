@@ -33,13 +33,13 @@ void MNOG();
 
 
 
-
+std::shared_ptr<Node> root;
 
 //Начало синтаксического анализа
 bool syntaxScan() {
 	std::cout << "Syntax: Begin" << std::endl;
 
-	Node::printTree(PR(), "", false);
+	Node::printRoot(PR());
 
 	return scanStatus;
 }
@@ -47,7 +47,7 @@ bool syntaxScan() {
 //Начало и конец программы
 std::shared_ptr<Node> PR() {
 
-	std::shared_ptr<Node> root = std::make_shared<Node>(
+	root = std::make_shared<Node>(
 		NodeType::PROGRAM, 
 		std::make_pair(1,1), 
 		"Programm"
