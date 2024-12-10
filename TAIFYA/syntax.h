@@ -5,6 +5,9 @@
 #include <unordered_map>
 #include <vector>
 
+#include "lexem.h"
+
+
 using std::string;
 using std::unordered_map;
 using std::vector;
@@ -19,6 +22,8 @@ extern bool isNumb;
 bool syntaxScan();
 void gl();
 bool EQ(string S);
+
+Lexeme getCurrentLexem();
 
 void checkAndAdvance(const std::string& expectedLexem);
 

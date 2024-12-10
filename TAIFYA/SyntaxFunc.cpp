@@ -3,10 +3,14 @@
 
 #include "syntax.h"
 #include "tables.h"
-#include "lexem.h"
+
+bool isID, isNumb;
+
 
 size_t currentLexemeIndex = 0;
-bool isID, isNumb;
+
+Lexeme currentLexeme;
+
 //Чтение лексем
 void gl() {
     if (currentLexemeIndex >= lexemes.size()) {
@@ -19,7 +23,8 @@ void gl() {
     int tableNumb, value;
     char comma;
 
-    Lexeme& currentLexeme = lexemes[currentLexemeIndex];
+    currentLexeme = lexemes[currentLexemeIndex];
+
     unordered_map<string, int> table;
 
     switch (currentLexeme.tableNumb) {
@@ -61,6 +66,10 @@ void checkAndAdvance(const std::string& expectedLexem) {
     else {
         err_proc(expectedLexem);
     }
+}
+
+Lexeme getCurrentLexem() {
+    return currentLexeme;
 }
 
 // Обработка ошибок

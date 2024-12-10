@@ -6,11 +6,14 @@
 #include <memory>
 #include <vector>
 
+#include "lexem.h"
+
 enum class NodeType {
 	INT,
 	DOUBLE,
 	BOOL,
 	IDENTIFIER,
+
 
 	PROGRAM,		// Начало программ
 	DECLARATION,	// Описание / Объявление переменных
@@ -18,7 +21,12 @@ enum class NodeType {
 	ASSIGNMENT,		// Присваивание
 	LOOP_FOR,		// Фиксированный цикл
 	LOOP_WHILE,		// Условный цикл
+
 	EXPRESSION,		// Выражение
+	OPERAND,		// Операнд
+	SLAG,			// Слагаемое
+	MNOG,
+
 	END,			// Конец программ
 };
 
@@ -26,17 +34,17 @@ struct Node {
 	NodeType type;
 	std::string description;
 	std::vector<std::shared_ptr<Node>> children;
-	std::pair<int, int> token;
+	Lexeme lexem;
 
-	Node(NodeType type, std::pair<int, int> token, std::string description = "") :
-		type(type), token(token), description(description) {}
+	Node(NodeType type, Lexeme token, std::string description = "") :
+		type(type), lexem(token), description(description) {}
 
 	void addChild(std::shared_ptr<Node> child) {
 		children.push_back(child);
 	}
 
 	static void printRoot(const std::shared_ptr<Node>& root) {
-		std::cout << root->description << " (" << root->token.first << ", " << root->token.second << ") " << std::endl;
+		std::cout << root->description << " (" << root->lexem.tableNumb << ", " << root->lexem.valueNumb << ") " << std::endl;
 
 		for (size_t i = 0; i < root->children.size(); ++i) {
 			printTree(root->children[i], "", i == root->children.size() - 1);
@@ -44,7 +52,6 @@ struct Node {
 	}
 
 	static void printTree(const std::shared_ptr<Node>& node, const std::string& prefix = "", bool isLast = true) {
-		// Печатаем текущий узел
 		std::cout << prefix;
 		if (isLast) {
 			std::cout << "`-- ";
@@ -52,11 +59,10 @@ struct Node {
 		else {
 			std::cout << "|-- ";
 		}
-		std::cout << node->description << " (" << node->token.first << ", " << node->token.second << ") " << std::endl;
+		std::cout << node->description << " (" << node->lexem.tableNumb << ", " << node->lexem.valueNumb << ") " << std::endl;
 
-		// Рекурсивный вывод для всех детей
 		for (size_t i = 0; i < node->children.size(); ++i) {
-			printTree(node->children[i], prefix + (isLast ? "\t" : "| "), i == node->children.size() - 1);
+			printTree(node->children[i], prefix + (isLast ? "\t" : "|\t"), i == node->children.size() - 1);
 		}
 	}
 };

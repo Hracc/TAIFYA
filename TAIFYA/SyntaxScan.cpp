@@ -16,20 +16,20 @@ std::shared_ptr<Node> DESCR();
 // Идентификаторы
 std::shared_ptr<Node> ID();
 //Оператор
-void OPER();
+std::shared_ptr<Node> OPER();
 // Для Оператора
 void SOSTAVNOY();
-void PRISV();
+std::shared_ptr<Node> PRISV();
 void IF();
 void FOR();
 void DOWHILE();
 void INPUT();
 void OUTPUT();
 // Пр. для Операторов
-void VIRAGENIYA();
-void OPERAND();
-void SLAG();
-void MNOG();
+std::shared_ptr<Node> VIRAGENIYA();
+std::shared_ptr<Node> OPERAND();
+std::shared_ptr<Node> SLAG();
+std::shared_ptr<Node> MNOG();
 
 
 
@@ -39,21 +39,25 @@ std::shared_ptr<Node> root;
 bool syntaxScan() {
 	std::cout << "Syntax: Begin" << std::endl;
 
-	Node::printRoot(PR());
+	std::shared_ptr<Node> RunProgramm = PR();
+
+	if (scanStatus) {
+		Node::printRoot(RunProgramm);
+	}
 
 	return scanStatus;
 }
 
 //Начало и конец программы
 std::shared_ptr<Node> PR() {
+	gl();
 
 	root = std::make_shared<Node>(
 		NodeType::PROGRAM, 
-		std::make_pair(1,1), 
+		getCurrentLexem(),
 		"Programm"
 	);
 
-	gl();
 	if (EQ("{")) {
 		gl();
 
@@ -76,11 +80,11 @@ std::shared_ptr<Node> PR() {
 
 //Тело программы
 std::shared_ptr<Node> BODY() {
+	std::shared_ptr<Node> body;
 	if (isID) {
-		std::shared_ptr<Node> descr = DESCR();
+		body = DESCR();
 		if (EQ(";")) {
 			gl();
-			return descr;
 		}
 		else {
 			err_proc(";");
@@ -90,7 +94,7 @@ std::shared_ptr<Node> BODY() {
 		EQ("let") || EQ("if") ||
 		EQ("for") || EQ("do") || 
 		EQ("input") || EQ("output")) {
-		OPER();
+		body = OPER();
 		if (EQ(";")) {
 			gl();
 		}
@@ -102,25 +106,26 @@ std::shared_ptr<Node> BODY() {
 		err_proc(SyntaxErr::UnexpectedLexem);
 	}
 	//gl();
-	return nullptr;
+	return body;
 }
 
 //Описание
 std::shared_ptr<Node> DESCR() {
 	std::shared_ptr<Node> declarationNode = std::make_shared<Node>(
 		NodeType::DECLARATION,
-		std::make_pair(1, 3),
+		getCurrentLexem(),
 		"declaration");
 	
 	declarationNode->addChild(ID());
 	std::shared_ptr<Node> typeNode;
 
 	gl();
+
 	while (!EQ(":") && scanStatus) {
 		if (EQ(",")) {
 			gl();
 			if (isID) {
-				std::cout << lex << endl;
+				//std::cout << lex << endl;
 				declarationNode->addChild(ID());
 				gl();
 			}
@@ -136,21 +141,21 @@ std::shared_ptr<Node> DESCR() {
 		if (EQ("%")) {
 			typeNode = std::make_shared<Node>(
 				NodeType::INT,
-				std::make_pair(1, 3),
+				getCurrentLexem(),
 				"% (int)");
 			gl();
 		}
 		else if (EQ("!")) {
 			typeNode = std::make_shared<Node>(
 				NodeType::DOUBLE,
-				std::make_pair(1, 4),
+				getCurrentLexem(),
 				"! (double)");
 			gl();
 		}
 		else if (EQ("$")) {
 			typeNode = std::make_shared<Node>(
 				NodeType::BOOL,
-				std::make_pair(1, 5),
+				getCurrentLexem(),
 				"$ (bool)");
 			gl();
 		}
@@ -171,19 +176,21 @@ std::shared_ptr<Node> DESCR() {
 std::shared_ptr<Node> ID() {
 	std::shared_ptr<Node> operNode = std::make_shared<Node>(
 		NodeType::IDENTIFIER,
-		std::make_pair(1, 1),
+		getCurrentLexem(),
 		"Operand(" + lex + ")"
 	);
 	return operNode;
 }
 
 // Операции
-void OPER() {
+std::shared_ptr<Node> OPER() {
+	std::shared_ptr<Node> oper;
+
 	if (EQ("[")) {
 		SOSTAVNOY();
 	}
 	else if (EQ("let")) {
-		PRISV();
+		oper = PRISV();
 	}
 	else if (EQ("if")) {
 		IF();
@@ -203,6 +210,7 @@ void OPER() {
 	else {
 		err_proc(SyntaxErr::UnexpectedLexem);
 	}
+	return oper;
 }
 // Список операций:
 // Составнной
@@ -227,13 +235,18 @@ void SOSTAVNOY() {
 }
 
 // Присваивание
-void PRISV() {
+std::shared_ptr<Node> PRISV() {
+	std::shared_ptr<Node> prisv= std::make_shared<Node>(
+		NodeType::ASSIGNMENT,
+		getCurrentLexem(),
+		"Assigment(" + lex + ")"
+	);
 	gl();
 	if (isID) {
 		gl();
 		if (EQ("=")) {
 			gl();
-			VIRAGENIYA();
+			prisv->addChild(VIRAGENIYA());
 		}
 		else {
 			err_proc("=");
@@ -242,6 +255,7 @@ void PRISV() {
 	else {
 		err_proc(SyntaxErr::ExpectedIdentifier);
 	}
+	return prisv;
 }
 
 // Условная операция
@@ -400,43 +414,71 @@ void OUTPUT() {
 	}
 }
 
-void VIRAGENIYA() {
-	OPERAND();
+std::shared_ptr<Node> VIRAGENIYA() {
+	std::shared_ptr<Node> expression = std::make_shared<Node>(
+		NodeType::EXPRESSION,
+		getCurrentLexem(),
+		"Expression(" + lex + ")"
+	);
+
+	expression->addChild(OPERAND());
 	while (EQ("=") || EQ("<") || EQ("<>") || EQ("<=") || EQ(">") || EQ(">=")) {
 		gl();
-		OPERAND();
+		expression ->addChild(OPERAND());
 	}
+
+	return expression;
 }
 
-void OPERAND() {
-	SLAG();
+std::shared_ptr<Node> OPERAND() {
+	std::shared_ptr<Node> operand = std::make_shared<Node>(
+		NodeType::OPERAND,
+		getCurrentLexem(),
+		"Operand(" + lex + ")"
+	);
+
+	operand->addChild(SLAG());
 	while (EQ("+") || EQ("-") || EQ("or")) {
 		gl();
-		SLAG();
+		operand->addChild(SLAG());
 	}
+	return operand;
 }
 
 
-void SLAG() {
-	MNOG();
+std::shared_ptr<Node> SLAG() {
+	std::shared_ptr<Node> slag = std::make_shared<Node>(
+		NodeType::SLAG,
+		getCurrentLexem(),
+		"Slagaemoe(" + lex + ")"
+	);
+
+	slag->addChild(MNOG());
 	while (EQ("*") || EQ("/") || EQ("and")) {
 		gl();
-		MNOG();
+		slag->addChild(MNOG());
 	}
+	return slag;
 }
 
 
-void MNOG() {
+std::shared_ptr<Node> MNOG() {
+	std::shared_ptr<Node> slag = std::make_shared<Node>(
+		NodeType::MNOG,
+		getCurrentLexem(),
+		"Mnog(" + lex + ")"
+	);
+
 	if (isID || isNumb || EQ("true") || EQ("false")) {
 		gl();
 	}
 	else if (EQ("not")) {
 		gl();
-		MNOG();
+		slag->addChild(MNOG());
 	}
 	else if (EQ("(")) {
 		gl();
-		VIRAGENIYA();
+		slag->addChild(VIRAGENIYA());
 		if (EQ(")")) {
 			gl();
 		}
@@ -447,4 +489,5 @@ void MNOG() {
 	else {
 		err_proc(SyntaxErr::InvalidExpression);
 	}
+	return slag;
 }

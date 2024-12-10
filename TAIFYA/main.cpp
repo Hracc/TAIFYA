@@ -4,7 +4,7 @@
 #include "syntax.h"
 #include "tables.h"
 
-bool printStatus = false;
+bool printStatus = true;
 
 
 int main() {
