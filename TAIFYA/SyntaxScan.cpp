@@ -18,13 +18,13 @@ std::shared_ptr<Node> OPERANDS();
 //Оператор
 std::shared_ptr<Node> OPER();
 // Для Оператора
-void SOSTAVNOY();
+std::shared_ptr<Node> SOSTAVNOY();
 std::shared_ptr<Node> PRISV();
-void IF();
-void FOR();
-void DOWHILE();
-void INPUT();
-void OUTPUT();
+std::shared_ptr<Node> IF();
+std::shared_ptr<Node> FOR();
+std::shared_ptr<Node> DOWHILE();
+std::shared_ptr<Node> INPUT();
+std::shared_ptr<Node> OUTPUT();
 // Пр. для Операторов
 std::shared_ptr<Node> VIRAGENIYA();
 std::shared_ptr<Node> OPERAND();
@@ -178,25 +178,25 @@ std::shared_ptr<Node> OPER() {
 	std::shared_ptr<Node> oper;
 
 	if (EQ("[")) {
-		SOSTAVNOY();
+		oper = SOSTAVNOY();
 	}
 	else if (EQ("let")) {
 		oper = PRISV();
 	}
 	else if (EQ("if")) {
-		IF();
+		oper = IF();
 	}
 	else if (EQ("for")) {
-		FOR();
+		oper = FOR();
 	}
 	else if (EQ("do")) {
-		DOWHILE();
+		oper = DOWHILE();
 	}
 	else if (EQ("input")) {
-		INPUT();
+		oper = INPUT();
 	}
 	else if (EQ("output")) {
-		OUTPUT();
+		oper = OUTPUT();
 	}
 	else {
 		err_proc(SyntaxErr::UnexpectedLexem);
@@ -205,11 +205,16 @@ std::shared_ptr<Node> OPER() {
 }
 // Список операций:
 // Составнной
-void SOSTAVNOY() {
+std::shared_ptr<Node> SOSTAVNOY() {
+	std::shared_ptr<Node> condition = std::make_shared<Node>(
+		NodeType::CONDITION,
+		"Condition"
+	);
+
 	gl();
 	do
 	{
-		OPER();
+		condition->addChild(OPER());
 		if (EQ(";")) {
 			gl();
 		}
@@ -223,6 +228,7 @@ void SOSTAVNOY() {
 	else {
 		err_proc("]");
 	}
+	return condition;
 }
 
 // Присваивание
@@ -249,15 +255,39 @@ std::shared_ptr<Node> PRISV() {
 }
 
 // Условная операция
-void IF() {
+std::shared_ptr<Node> IF() {
+	std::shared_ptr<Node> if_elseNode = std::make_shared<Node>(
+		NodeType::IF,
+		"If_Else"
+	);
+
+	std::shared_ptr<Node> ifNode = std::make_shared<Node>(
+		NodeType::IF,
+		"If"
+	);
+	if_elseNode->addChild(ifNode);
+
+
 	gl();
-	VIRAGENIYA();
+	ifNode->addChild(VIRAGENIYA());
 	if (EQ("then")) {
+		std::shared_ptr<Node> thenNode = std::make_shared<Node>(
+			NodeType::THEN,
+			"Then"
+		);
+		if_elseNode->addChild(thenNode);
+
 		gl();
-		OPER();
+		thenNode->addChild(OPER());
 		if (EQ("else")) {
+			std::shared_ptr<Node> elseNode = std::make_shared<Node>(
+				NodeType::THEN,
+				"Then"
+			);
+			if_elseNode->addChild(elseNode);
+
 			gl();
-			OPER();
+			elseNode->addChild(OPER());
 		}
 		if (EQ("end_else")) {
 			gl();
@@ -269,11 +299,17 @@ void IF() {
 	else {
 		err_proc("then");
 	}
+	return if_elseNode;
 }
 
 
 // Фиксированный цикл
-void FOR() {
+std::shared_ptr<Node> FOR() {
+	std::shared_ptr<Node> loop_for = std::make_shared<Node>(
+		NodeType::LOOP_FOR,
+		"For"
+	);
+
 	gl();
 	if (EQ("(")) {
 		gl();
@@ -283,7 +319,7 @@ void FOR() {
 				gl();
 			}
 			else {
-				VIRAGENIYA();
+				loop_for->addChild(VIRAGENIYA());
 				if (EQ(";")) {
 					gl();
 				}
@@ -293,14 +329,14 @@ void FOR() {
 			}
 		}
 		else {
-			VIRAGENIYA();
+			loop_for->addChild(VIRAGENIYA());
 			if (EQ(";")) {
 				gl();
 				if (EQ(";")) {
 					gl();
 				}
 				else {
-					VIRAGENIYA();
+					loop_for->addChild(VIRAGENIYA());
 					if (EQ(";")) {
 						gl();
 
@@ -316,10 +352,10 @@ void FOR() {
 		}
 		if (EQ(")")) {
 			gl();
-			OPER();
+			loop_for->addChild(OPER());
 		}
 		else {
-			VIRAGENIYA();
+			loop_for->addChild(VIRAGENIYA());
 			if (EQ(")")) {
 				gl();
 				OPER();
@@ -332,16 +368,22 @@ void FOR() {
 	else {
 		err_proc("(");
 	}
+	return loop_for;
 }
 
 
 // Условный цикл
-void DOWHILE() {
+std::shared_ptr<Node> DOWHILE() {
+	std::shared_ptr<Node> do_while = std::make_shared<Node>(
+		NodeType::DO_WHILE,
+		"Do_While"
+	);
+
 	gl();
 	if (EQ("while")) {
 		gl();
-		VIRAGENIYA();
-		OPER();
+		do_while->addChild(VIRAGENIYA());
+		do_while->addChild(OPER());
 		if (EQ("loop")) {
 			gl();
 		}
@@ -352,16 +394,23 @@ void DOWHILE() {
 	else {
 		err_proc("while");
 	}
+	return do_while;
 }
 
 // Операция ввода
-void INPUT() {
+std::shared_ptr<Node> INPUT() {
+	std::shared_ptr<Node> input = std::make_shared<Node>(
+		NodeType::INPUT,
+		"Input"
+	);
+
 	gl();
 	if (EQ("(")) {
 		gl();
 		do
 		{
 			if (isID) {
+				input->addChild(OPERANDS());
 				gl();
 			}
 			else {
@@ -380,16 +429,22 @@ void INPUT() {
 	else {
 		err_proc("(");
 	}
+	return input;
 }
 
 // Операция вывода
-void OUTPUT() {
+std::shared_ptr<Node> OUTPUT() {
+	std::shared_ptr<Node> output = std::make_shared<Node>(
+		NodeType::OUTPUT,
+		"Output"
+	);
+
 	gl();
 	if (EQ("(")) {
 		gl();
 		do
 		{
-			VIRAGENIYA();
+			output->addChild(VIRAGENIYA());
 		} while (!EQ(")") && scanStatus);
 
 		if (EQ(")")) {
@@ -402,6 +457,7 @@ void OUTPUT() {
 	else {
 		err_proc("(");
 	}
+	return output;
 }
 
 std::shared_ptr<Node> VIRAGENIYA() {

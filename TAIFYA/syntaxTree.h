@@ -25,10 +25,19 @@ enum class NodeType {
 
 	PROGRAM,		// Начало программ
 	DECLARATION,	// Описание / Объявление переменных
+	
 	OPERATOR,		// Оператор
+	CONDITION,		// Составной (?)
+	IF, 
+	THEN, 
+	ELSE,
 	ASSIGNMENT,		// Присваивание
+	INPUT,
+	OUTPUT,
 	LOOP_FOR,		// Фиксированный цикл
-	LOOP_WHILE,		// Условный цикл
+	DO_WHILE,		// Условный цикл
+	DO,
+	WHILE,
 
 	EXPRESSION,		// Выражение
 	OPERAND,		// Операнд

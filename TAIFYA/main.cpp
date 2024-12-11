@@ -8,7 +8,6 @@ bool printStatus = false;
 
 
 int main() {
-	std::cout << __cplusplus << std::endl;
 
 	if (lexScan()) {
 		std::cout<< "Lexer: Success"<< std::endl;
