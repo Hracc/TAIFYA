@@ -5,8 +5,8 @@ using std::vector;
 
 
 struct Lexeme {
-	int tableNumb;
-	int valueNumb;
+	int tableNumb=0;
+	int valueNumb=0;
 };
 
 extern vector<Lexeme> lexemes;

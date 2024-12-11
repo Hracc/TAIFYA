@@ -4,10 +4,12 @@
 #include "syntax.h"
 #include "tables.h"
 
-bool printStatus = true;
+bool printStatus = false;
 
 
 int main() {
+	std::cout << __cplusplus << std::endl;
+
 	if (lexScan()) {
 		std::cout<< "Lexer: Success"<< std::endl;
 		saveLexemesToFile("lexems.txt");
