@@ -12,14 +12,15 @@ string lex;
 std::shared_ptr<Node> PR();
 std::shared_ptr<Node> BODY();
 //Описание
-std::shared_ptr<Node> DESCR();
+std::shared_ptr<Node> DESCR(std::shared_ptr<Node> id);
 // Идентификаторы
 std::shared_ptr<Node> OPERANDS();
 //Оператор
 std::shared_ptr<Node> OPER();
 // Для Оператора
 std::shared_ptr<Node> SOSTAVNOY();
-std::shared_ptr<Node> PRISV();
+//std::shared_ptr<Node> PRISV();
+std::shared_ptr<Node> PRISV(std::shared_ptr<Node> id);
 std::shared_ptr<Node> IF();
 std::shared_ptr<Node> FOR();
 std::shared_ptr<Node> DOWHILE();
@@ -31,13 +32,15 @@ std::shared_ptr<Node> OPERAND();
 std::shared_ptr<Node> SLAG();
 std::shared_ptr<Node> MNOG();
 
+std::shared_ptr<Node> DESCRORPRISV();
+
 
 
 std::shared_ptr<Node> root;
 
 //Начало синтаксического анализа
 bool syntaxScan() {
-	std::cout << "Syntax: Begin" << std::endl;
+	std::cout << endl << "Syntax: Start ============================================" << endl << endl;
 
 	std::shared_ptr<Node> RunProgramm = PR();
 
@@ -84,7 +87,7 @@ std::shared_ptr<Node> PR() {
 std::shared_ptr<Node> BODY() {
 	std::shared_ptr<Node> body;
 	if (isID) {
-		body = DESCR();
+		body = DESCRORPRISV();
 		if (EQ(";")) {
 			gl();
 		}
@@ -111,14 +114,31 @@ std::shared_ptr<Node> BODY() {
 	return body;
 }
 
+std::shared_ptr<Node> DESCRORPRISV() {
+	std::shared_ptr<Node> descrorprisv;
+	std::shared_ptr<Node> id = OPERANDS();
+	gl();
+
+	if (EQ(",") || EQ(":")) {
+		gl();
+		descrorprisv = DESCR(id);
+	}
+	else if (EQ("=")) {
+		gl();
+		descrorprisv = PRISV(id);
+	}
+	return descrorprisv;
+}
+
 //Описание
-std::shared_ptr<Node> DESCR() {
+std::shared_ptr<Node> DESCR(std::shared_ptr<Node> id) {
 	std::shared_ptr<Node> declarationNode = std::make_shared<Node>(
 		NodeType::DECLARATION,
 		"declaration");
+	declarationNode->addChild(id);
 	declarationNode->addChild(OPERANDS());
-	std::shared_ptr<Node> typeNode;
 
+	std::shared_ptr<Node> typeNode;
 	gl();
 
 	while (!EQ(":") && scanStatus) {
@@ -181,7 +201,11 @@ std::shared_ptr<Node> OPER() {
 		oper = SOSTAVNOY();
 	}
 	else if (EQ("let")) {
-		oper = PRISV();
+		oper = PRISV(nullptr);
+	}
+	else if (isID) {
+		std::shared_ptr<Node> id = OPERANDS();
+		oper = PRISV(id);
 	}
 	else if (EQ("if")) {
 		oper = IF();
@@ -232,27 +256,48 @@ std::shared_ptr<Node> SOSTAVNOY() {
 }
 
 // Присваивание
-std::shared_ptr<Node> PRISV() {
+std::shared_ptr<Node> PRISV(std::shared_ptr<Node> id) {
 	std::shared_ptr<Node> prisv = std::make_shared<Node>(
 		NodeType::ASSIGNMENT,
 		"Assigment"
 	);
-	gl();
-	if (isID) {
+	if (id == nullptr) {
 		gl();
-		if (EQ("=")) {
+		if (isID) {
+			prisv->addChild(OPERANDS());
 			gl();
-			prisv->addChild(VIRAGENIYA());
+			if (EQ("=")) {
+				gl();
+				prisv->addChild(VIRAGENIYA());
+			}
+			else {
+				err_proc("=");
+			}
 		}
 		else {
-			err_proc("=");
+			err_proc(SyntaxErr::ExpectedIdentifier);
 		}
 	}
 	else {
-		err_proc(SyntaxErr::ExpectedIdentifier);
+		prisv->addChild(id);
+		//gl();
+		prisv->addChild(VIRAGENIYA());
 	}
 	return prisv;
 }
+
+//std::shared_ptr<Node> PRISV(std::shared_ptr<Node> id) {
+//	std::shared_ptr<Node> prisv = std::make_shared<Node>(
+//		NodeType::ASSIGNMENT,
+//		"Assigment"
+//	);
+//	std::cout << lex << endl;
+//	prisv->addChild(id);
+//	//gl();
+//	prisv->addChild(VIRAGENIYA());
+//
+//	return prisv;
+//}
 
 // Условная операция
 std::shared_ptr<Node> IF() {
@@ -281,8 +326,8 @@ std::shared_ptr<Node> IF() {
 		thenNode->addChild(OPER());
 		if (EQ("else")) {
 			std::shared_ptr<Node> elseNode = std::make_shared<Node>(
-				NodeType::THEN,
-				"Then"
+				NodeType::ELSE,
+				"Else"
 			);
 			if_elseNode->addChild(elseNode);
 

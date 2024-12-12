@@ -4,23 +4,23 @@
 #include "syntax.h"
 #include "tables.h"
 
-bool printStatus = false;
+bool printStatus = true;
 
 
 int main() {
 
 	if (lexScan()) {
-		std::cout<< "Lexer: Success"<< std::endl;
+		std::cout<< endl << "Lexer: Success ============================================"<< endl << endl;
 		saveLexemesToFile("lexems.txt");
 		if (syntaxScan()) {
-			std::cout << "Syntax: Success" << std::endl;
+			std::cout << endl << "Syntax: Success ============================================" << endl << endl;
 		}
 		else {
-			std::cout << "Syntax: Failed" << std::endl;
+			std::cout << endl << "Syntax: Failed ============================================" << endl << endl;
 		}
 	}
 	else {
-		std::cout << "Lexer: Failed" << std::endl;
+		std::cout << endl << "Lexer: Failed ============================================" << endl << endl;
 	}
 
 

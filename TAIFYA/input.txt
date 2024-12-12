@@ -1,2 +1,16 @@
 {
+	a1,b3:%;;
+
+	[
+		let a1 = true;
+		a1 = 2; 
+	];
+	
+	if true or not (25<10+20/(10-2)) then 
+		output(a1) 
+	else 
+		input(AB) 
+	end_else;
+
+	input(b3);
 }

@@ -7,12 +7,12 @@
 
 bool lexScan() {
 	char lowerCH;
-	std::cout << "Lexer: Start" << std::endl;
+	std::cout << endl << "Lexer: Start ============================================" << endl << endl;
 	states CS;
 	CS = H;
 	gc();
 	if (printStatus) {
-		std::cout << "Line 1 :" << endl;
+		std::cout << "Line: 1" << endl;
 	}
 	while (CS != V) {
 		switch (CS) {
