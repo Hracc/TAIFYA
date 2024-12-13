@@ -14,7 +14,7 @@ using std::vector;
 using std::ifstream;
 using std::endl;
 
-extern string lex;
+extern string symbol;
 extern bool scanStatus;
 extern bool isID;
 extern bool isNumb;
@@ -24,8 +24,9 @@ void gl();
 bool EQ(string S);
 
 Lexeme getCurrentLexem();
+string getPrintSymbol();
 
-void checkAndAdvance(const std::string& expectedLexem);
+void checkAndAdvance(const string& expectedLexem);
 
 enum class SyntaxErr {
     ExpectedType,

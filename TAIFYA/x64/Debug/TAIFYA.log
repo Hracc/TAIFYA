@@ -1,3 +1,7 @@
-﻿  LexerScan.cpp
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerScan.cpp(595,1): warning C4715: lexScan: значение возвращается не при всех путях выполнения
+﻿  SyntaxFunc.cpp
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxFunc.cpp(25,20): warning C4101: value: неиспользованная локальная переменная
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxFunc.cpp(25,9): warning C4101: tableNumb: неиспользованная локальная переменная
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxFunc.cpp(26,10): warning C4101: comma: неиспользованная локальная переменная
+  SyntaxScan.cpp
+  Создание кода...
   TAIFYA.vcxproj -> C:\Users\79379\Documents\GitHub\TAIFYA\x64\Debug\TAIFYA.exe

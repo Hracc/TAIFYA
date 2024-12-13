@@ -6,51 +6,57 @@
 #include <memory>
 #include <vector>
 
-#include <optional>
-
 #include "lexem.h"
 
-//std::optional<Lexeme> lexem;
+using std::shared_ptr;
+using std::make_shared;
 
+// Тип для синтаксического древа
+// !!! ТИПЫ БУДУТ ПОПОЛНЯТЬСЯ И МЕНЯТЬСЯ НА ЭТАПЕ СЕМАНТИЧЕСКОГО АНАЛИЗАТОРА !!!
 enum class NodeType {
+
+// Тип чисел 
 	INT,
 	DOUBLE,
 	BOOL,
 
+// Тип Лексем
 	WORD,
 	LIMITER,
-
-	IDENTIFIER,
 	NUMBER,
+	IDENTIFIER,
 
+// Основа программы
 	PROGRAM,		// Начало программ
 	DECLARATION,	// Описание / Объявление переменных
-	
 	OPERATOR,		// Оператор
-	CONDITION,		// Составной (?)
-	IF, 
+
+// Операторы
+	COMPOUND,		// Составной 
+	IF,				// Для if-else
 	THEN, 
 	ELSE,
 	ASSIGNMENT,		// Присваивание
-	INPUT,
-	OUTPUT,
+	INPUT,			// Ввод
+	OUTPUT,			// Вывод
 	LOOP_FOR,		// Фиксированный цикл
 	DO_WHILE,		// Условный цикл
-	DO,
+	DO,				// (Пока что не используются)
 	WHILE,
 
 	EXPRESSION,		// Выражение
 	OPERAND,		// Операнд
-	SLAG,			// Слагаемое
-	MNOG,
+	TERM,			// Слагаемое
+	FACTOR,			// Множитель
 
-	END,			// Конец программ (?)
+	END,			// (Пока что не используются)
 };
 
+// Узел
 struct Node {
 	NodeType type;
 	std::string description;
-	std::vector<std::shared_ptr<Node>> children;
+	std::vector<shared_ptr<Node>> children;
 	Lexeme lexem;
 
 	Node(NodeType type, Lexeme token, std::string description = "") :
@@ -60,11 +66,11 @@ struct Node {
 		type(type), description(description) {}
 
 
-	void addChild(std::shared_ptr<Node> child) {
+	void addChild(shared_ptr<Node> child) {
 		children.push_back(child);
 	}
 
-	static void printRoot(const std::shared_ptr<Node>& root) {
+	static void printRoot(const shared_ptr<Node>& root) {
 		std::cout << root->description;
 		if (root->lexem.tableNumb == 0) {
 			std::cout << endl;
@@ -78,7 +84,7 @@ struct Node {
 		}
 	}
 
-	static void printTree(const std::shared_ptr<Node>& node, const std::string& prefix = "", bool isLast = true) {
+	static void printTree(const shared_ptr<Node>& node, const std::string& prefix = "", bool isLast = true) {
 		std::cout << prefix;
 		if (isLast) {
 			std::cout << "`- ";
@@ -96,13 +102,12 @@ struct Node {
 		}
 
 		for (size_t i = 0; i < node->children.size(); ++i) {
-			//printTree(node->children[i], prefix + (isLast ? "\t" : "|\t"), i == node->children.size() - 1);
 			printTree(node->children[i], prefix + (isLast ? "   " : "|   "), i == node->children.size() - 1);
 
 		}
 	}
 };
 
-extern std::shared_ptr<Node> root;
+shared_ptr<Node> createNode(NodeType type, string description = "");
 
 #endif

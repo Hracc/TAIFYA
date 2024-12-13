@@ -4,6 +4,8 @@
 #include "syntax.h"
 #include "tables.h"
 
+#include "syntaxTree.h"
+
 bool isID, isNumb;
 
 
@@ -45,7 +47,7 @@ void gl() {
     }
     for (const auto& pair : table) {
         if (pair.second == currentLexeme.valueNumb) {
-            lex = pair.first;
+            symbol = pair.first;
             //std::cout << lex << endl;
             break;
         }
@@ -56,7 +58,7 @@ void gl() {
 // Функции для упрощения кода
 //Проверка равенства S на нужную лексему
 bool EQ(string S) {
-    return lex==S;
+    return symbol==S;
 }
 
 void checkAndAdvance(const std::string& expectedLexem) {
@@ -70,6 +72,10 @@ void checkAndAdvance(const std::string& expectedLexem) {
 
 Lexeme getCurrentLexem() {
     return currentLexeme;
+}
+
+string getPrintSymbol() {
+    return "['" + symbol + "']";
 }
 
 // Обработка ошибок
@@ -100,4 +106,18 @@ void err_proc(SyntaxErr err) {
 void err_proc(string symbol) {
     std::cout << "[Err]:Missed lexem: '"<< symbol <<"'" << endl;
     scanStatus = false;
+}
+
+shared_ptr<Node> createNode(NodeType type, string description) {
+    if (description == "") {
+        return make_shared<Node>(
+            type,
+            getCurrentLexem(),
+            getPrintSymbol());
+    }
+    else {
+        return make_shared<Node>(
+            NodeType::PROGRAM, 
+            description);
+    }
 }

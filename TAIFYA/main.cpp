@@ -8,7 +8,6 @@ bool printStatus = true;
 
 
 int main() {
-
 	if (lexScan()) {
 		std::cout<< endl << "Lexer: Success ============================================"<< endl << endl;
 		saveLexemesToFile("lexems.txt");
