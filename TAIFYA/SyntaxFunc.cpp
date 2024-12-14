@@ -80,31 +80,35 @@ string getPrintSymbol() {
 
 // Обработка ошибок
 void err_proc(SyntaxErr err) {
+    unsigned int line = currentLexeme.linePos;
+    std::cout << "[SyntaxError] Line "<< line <<": ";
     switch (err) {
     case SyntaxErr::ExpectedType:
-        std::cout << "[Err]: Expected type for Identifier"<< endl;
+        std::cout << "Expected type for Identifier"<< endl;
         break;
     case SyntaxErr::UnexpectedLexem:
-        std::cout << "[Err]: Unexpected lexem in body of programm" << endl;
+        std::cout << "Unexpected lexem in body of programm" << endl;
         break;
     case SyntaxErr::ExpectedIdentifier:
-        std::cout << "[Err]: Expected identifier" << endl;
+        std::cout << "Expected identifier" << endl;
         break;
     case SyntaxErr::InvalidExpression:
-        std::cout << "[Err]: Invalid Expression" << endl;
+        std::cout << "Invalid Expression" << endl;
         break;
     case SyntaxErr::OutOfBounds:
-        std::cerr << "[Err]: Out of bounds lexeme access" << std::endl;
+        std::cerr << "Out of bounds lexeme access" << std::endl;
         scanStatus = false;
         break;
     default:
-        std::cerr << "[Err]: Unknown Error" << std::endl;
+        std::cerr << "Unknown Error" << std::endl;
     }
     scanStatus = false;
 }
 
 void err_proc(string symbol) {
-    std::cout << "[Err]:Missed lexem: '"<< symbol <<"'" << endl;
+    unsigned int line = currentLexeme.linePos;
+    std::cout << "[SyntaxError] Line " << line << ": ";
+    std::cout << "Missed lexem: '"<< symbol <<"'" << endl;
     scanStatus = false;
 }
 

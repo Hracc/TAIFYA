@@ -98,11 +98,11 @@ void printLex(int t, int v) {
 	if (!key.empty()) {
 		if (printStatus) {
 			if (wasPut) {
-				std::cout << "out: " << t << ", " << v << " : " << key << endl;
+				std::cout << "out: (" << t << ", " << v << ") : " << key << endl;
 				wasPut = false;
 			}
 			else {
-				std::cout << "\t out: " << t << ", " << v << " : " << key << endl;
+				std::cout << "\t out: (" << t << ", " << v << ") : " << key << endl;
 			}
 		}
 	}
@@ -113,7 +113,7 @@ void printLex(int t, int v) {
 
 void out(int tableNumb, int valueNumb) {
 	printLex(tableNumb, valueNumb);
-	lexemes.push_back({ tableNumb, valueNumb });
+	lexemes.push_back({ tableNumb, valueNumb, line });
 }
 
 //Поиск значение в таблице

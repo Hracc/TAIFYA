@@ -1,7 +1,3 @@
-﻿  SyntaxFunc.cpp
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxFunc.cpp(25,20): warning C4101: value: неиспользованная локальная переменная
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxFunc.cpp(25,9): warning C4101: tableNumb: неиспользованная локальная переменная
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxFunc.cpp(26,10): warning C4101: comma: неиспользованная локальная переменная
-  SyntaxScan.cpp
-  Создание кода...
+﻿  LexerFunc.cpp
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerFunc.cpp(60,20): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
   TAIFYA.vcxproj -> C:\Users\79379\Documents\GitHub\TAIFYA\x64\Debug\TAIFYA.exe
