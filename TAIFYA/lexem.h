@@ -7,7 +7,7 @@ using std::vector;
 struct Lexeme {
 	int tableNumb=0;
 	int valueNumb=0;
-	unsigned int linePos;	// Для вывода ошибок на какой строке
+	unsigned int linePos;	// Р”Р»СЏ РІС‹РІРѕРґР° РѕС€РёР±РѕРє РЅР° РєР°РєРѕР№ СЃС‚СЂРѕРєРµ
 };
 
 extern vector<Lexeme> lexemes;
