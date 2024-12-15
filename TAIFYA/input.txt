@@ -1,17 +1,5 @@
 {
-	int,a1:%; float,b2:!;
+	a3,a3:%;;
 
-	c3,bool:$;;
 
-	input(a1 c3);
-
-	if (a1 > 200) and c3 then [
-		let b2 =2.3e+10;
-		bool = false;
-	]
-	else [
-		b2 = 10.35;
-		int = 25h;
-	]
-	end_else
 }

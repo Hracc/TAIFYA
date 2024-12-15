@@ -3,6 +3,8 @@
 #include "syntax.h"
 #include "syntaxTree.h"
 
+#include "semantic.h"
+
 
 
 
@@ -85,7 +87,7 @@ shared_ptr<Node> BODY() {
 		while (!EQ(";") && scanStatus) {
 			body = DECL_OR_ASSIGM();
 		}
-		if (EQ(";")) {
+		if (EQ(";") && scanStatus) {
 			gl();
 		}
 		else {
@@ -118,12 +120,15 @@ shared_ptr<Node> DECL_OR_ASSIGM() {
 	gl();
 
 	if (EQ(",") || EQ(":")) {
-		gl();
 		descrorprisv = DECLARATION(id);
+		checkDeclaration(descrorprisv);
 	}
 	else if (EQ("=")) {
 		gl();
 		descrorprisv = ASSIGNMENT(id);
+	}
+	else {
+		err_proc(SyntaxErr::UnexpectedLexem); // Временно такая обработка
 	}
 	return descrorprisv;
 }
@@ -132,10 +137,7 @@ shared_ptr<Node> DECL_OR_ASSIGM() {
 shared_ptr<Node> DECLARATION(shared_ptr<Node> id) {
 	shared_ptr<Node> declarationNode = createNode(NodeType::DECLARATION,"Declaration");
 	declarationNode->addChild(id);
-	declarationNode->addChild(SYMBOL());
-
 	shared_ptr<Node> typeNode;
-	gl();
 	while (!EQ(":") && scanStatus) {
 		if (EQ(",")) {
 			gl();

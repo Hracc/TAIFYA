@@ -5,11 +5,14 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "lexem.h"
 
 using std::shared_ptr;
+using std::string;
 using std::make_shared;
+using std::endl;
 
 // Тип для синтаксического древа
 // !!! ТИПЫ БУДУТ ПОПОЛНЯТЬСЯ И МЕНЯТЬСЯ НА ЭТАПЕ СЕМАНТИЧЕСКОГО АНАЛИЗАТОРА !!!

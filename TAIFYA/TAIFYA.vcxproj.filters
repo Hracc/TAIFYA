@@ -25,6 +25,12 @@
     <Filter Include="Исходные файлы\syntax">
       <UniqueIdentifier>{4189ed23-663c-43fe-8abd-1bc32f0c51df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\semantic">
+      <UniqueIdentifier>{c1cbfdee-d199-4da7-91e1-ab12a6524365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\semantic">
+      <UniqueIdentifier>{e836fd4e-8603-4792-8da9-b91c63da32c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +51,9 @@
     <ClCompile Include="Tables.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Semantic.cpp">
+      <Filter>Исходные файлы\semantic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.h">
@@ -61,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="syntaxTree.h">
       <Filter>Файлы заголовков\syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="semantic.h">
+      <Filter>Файлы заголовков\semantic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

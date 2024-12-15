@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <string>
 
+#include "syntaxTree.h"
+
 using std::string;
 using std::unordered_map;
 
