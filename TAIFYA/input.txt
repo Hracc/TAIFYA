@@ -1,4 +1,5 @@
 {
-	a1,a2:%;;
-	let a1 = 22e2*22eh;
+	a,b,c:%;;
+	c1:$;;
+	for(;a;) output(a);
 }

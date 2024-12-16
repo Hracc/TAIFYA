@@ -44,6 +44,7 @@ enum class NodeType {
 
 // Операторы
 	COMPOUND,		// Составной 
+	IF_ELSE,
 	IF,				// Для if-else
 	THEN, 
 	ELSE,
@@ -51,8 +52,8 @@ enum class NodeType {
 	INPUT,			// Ввод
 	OUTPUT,			// Вывод
 	LOOP_FOR,		// Фиксированный цикл
-	DO_WHILE,		// Условный цикл
-	DO,				// (Пока что не используются)
+	DO_WHILE,		// Для условного цикла
+	DO,				
 	WHILE,
 
 	EXPRESSION,		// Выражение

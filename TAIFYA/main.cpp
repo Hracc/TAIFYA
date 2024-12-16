@@ -12,10 +12,10 @@ int main() {
 		std::cout<< endl << "Lexer: Success ============================================"<< endl << endl;
 		saveLexemesToFile("lexems.txt");
 		if (syntaxScan()) {
-			std::cout << endl << "Syntax: Success ============================================" << endl << endl;
+			std::cout << endl << "Syntax & Semantic: Success ============================================" << endl << endl;
 		}
 		else {
-			std::cout << endl << "Syntax: Failed ============================================" << endl << endl;
+			std::cout << endl << "Syntax & Semantic: Failed ============================================" << endl << endl;
 		}
 	}
 	else {

@@ -42,14 +42,19 @@ shared_ptr<Node> DECL_OR_ASSIGM();
 
 //Начало синтаксического анализа
 bool syntaxScan() {
-	std::cout << endl << "Syntax: Start ============================================" << endl << endl;
+	std::cout << endl << "Syntax & Semantic: Start ============================================" << endl;
+	try {
+		shared_ptr<Node> RunProgramm = PROGRAMM();
 
-	shared_ptr<Node> RunProgramm = PROGRAMM();
-
-	if (scanStatus) {
-		Node::printRoot(RunProgramm);
+		if (scanStatus) {
+			Node::printRoot(RunProgramm);
+		}
 	}
-
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << endl;
+		scanStatus = false;
+	}
 	return scanStatus;
 }
 
@@ -191,24 +196,29 @@ shared_ptr<Node> OPERATOR() {
 		oper = ASSIGNMENT(nullptr);
 		checkAssigment(oper);
 	}
+	// Для составного оператора
 	else if (isID) {
 		shared_ptr<Node> id = SYMBOL();
 		oper = ASSIGNMENT(id);
+		checkAssigment(oper);
 	}
 	else if (EQ("if")) {
 		oper = IF_ELSE();
 	}
 	else if (EQ("for")) {
 		oper = FOR();
+		checkLoopFor(oper);
 	}
 	else if (EQ("do")) {
 		oper = DO_WHILE();
 	}
 	else if (EQ("input")) {
 		oper = INPUT();
+		checkInput(oper);
 	}
 	else if (EQ("output")) {
 		oper = OUTPUT();
+		checkOutput(oper);
 	}
 	else {
 		err_proc(SyntaxErr::UnexpectedLexem);
@@ -268,13 +278,16 @@ shared_ptr<Node> ASSIGNMENT(shared_ptr<Node> id) {
 
 // Условная операция
 shared_ptr<Node> IF_ELSE() {
-	shared_ptr<Node> if_elseNode = createNode(NodeType::IF,"If_Else");
+	shared_ptr<Node> if_elseNode = createNode(NodeType::IF_ELSE,"If_Else");
 
 	shared_ptr<Node> ifNode = createNode(NodeType::IF,"If");
 	if_elseNode->addChild(ifNode);
 
 	gl();
 	ifNode->addChild(EXPRESSION());
+
+	checkCondition(ifNode);
+
 	if (EQ("then")) {
 		shared_ptr<Node> thenNode = createNode(NodeType::THEN,"Then");
 		if_elseNode->addChild(thenNode);
@@ -371,12 +384,18 @@ shared_ptr<Node> FOR() {
 // Условный цикл
 shared_ptr<Node> DO_WHILE() {
 	shared_ptr<Node> do_while = createNode(NodeType::DO_WHILE,"Do_While");
+	shared_ptr<Node> doNode = createNode(NodeType::DO, "Do");
+	shared_ptr<Node> whileNode = createNode(NodeType::WHILE, "While");
+	do_while->addChild(doNode);
+	do_while->addChild(whileNode);
+
 
 	gl();
 	if (EQ("while")) {
 		gl();
-		do_while->addChild(EXPRESSION());
-		do_while->addChild(OPERATOR());
+		doNode->addChild(EXPRESSION());
+		checkCondition(doNode);
+		whileNode->addChild(OPERATOR());
 		if (EQ("loop")) {
 			gl();
 		}
@@ -471,7 +490,6 @@ shared_ptr<Node> OPERAND() {
 	return operand;
 }
 
-
 shared_ptr<Node> TERM() {
 	shared_ptr<Node> slag = createNode(NodeType::TERM,"Slagaemoe");
 
@@ -483,7 +501,6 @@ shared_ptr<Node> TERM() {
 	}
 	return slag;
 }
-
 
 shared_ptr<Node> FACTOR() {
 	shared_ptr<Node> mnog = createNode(NodeType::FACTOR,"Mnog");
