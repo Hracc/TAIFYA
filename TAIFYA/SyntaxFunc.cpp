@@ -121,7 +121,7 @@ shared_ptr<Node> createNode(NodeType type, string description) {
     }
     else {
         return make_shared<Node>(
-            NodeType::PROGRAM, 
+            type,
             description);
     }
 }

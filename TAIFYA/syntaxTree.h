@@ -29,6 +29,14 @@ enum class NodeType {
 	NUMBER,
 	IDENTIFIER,
 
+// Пр типы
+	EXPR_OPERATION,
+	BOOL_OPERATION,
+	NUMB_OPERATION,
+	NOT,
+	TRUE,
+	FALSE,
+
 // Основа программы
 	PROGRAM,		// Начало программ
 	DECLARATION,	// Описание / Объявление переменных
@@ -58,8 +66,8 @@ enum class NodeType {
 // Узел
 struct Node {
 	NodeType type;
-	std::string description;
-	std::vector<shared_ptr<Node>> children;
+	string description;
+	vector<shared_ptr<Node>> children;
 	Lexeme lexem;
 
 	Node(NodeType type, Lexeme token, std::string description = "") :

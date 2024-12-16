@@ -189,6 +189,7 @@ shared_ptr<Node> OPERATOR() {
 	}
 	else if (EQ("let")) {
 		oper = ASSIGNMENT(nullptr);
+		checkAssigment(oper);
 	}
 	else if (isID) {
 		shared_ptr<Node> id = SYMBOL();
@@ -456,7 +457,6 @@ shared_ptr<Node> EXPRESSION() {
 		gl();
 		expression->addChild(OPERAND());
 	}
-
 	return expression;
 }
 
@@ -521,13 +521,35 @@ shared_ptr<Node> FACTOR() {
 //!!! ДАННАЯ ФУНКЦИЯ МОЖЕТ БЫТЬ СОВРЕМЕНЕМ ИЗМЕНЕНА!!!
 shared_ptr<Node> SYMBOL() {
 	shared_ptr<Node> operNode;
-
 	switch (getCurrentLexem().tableNumb) {
 	case 1:
-		operNode = createNode(NodeType::WORD);
+		if (EQ("true")) {
+			operNode = createNode(NodeType::TRUE);
+		}
+		else if (EQ("false")) {
+			operNode = createNode(NodeType::FALSE);
+		}
+		else {
+			operNode = createNode(NodeType::WORD);
+		}
 		break;
 	case 2:
-		operNode = createNode(NodeType::LIMITER);
+		if(EQ("not")) {
+			operNode = createNode(NodeType::NOT);
+		}
+		else if (EQ("and") || EQ("or")) {
+			operNode = createNode(NodeType::BOOL_OPERATION);
+		}
+		else if (EQ("+") || EQ("-") || EQ("*") || EQ("/")) {
+			operNode = createNode(NodeType::NUMB_OPERATION);
+		}
+		else if (EQ("<") || EQ(">") || EQ("=") || EQ("<>") || EQ("<=") || EQ(">=")) {
+			operNode = createNode(NodeType::EXPR_OPERATION);
+		}
+		else {
+			operNode = createNode(NodeType::LIMITER);
+		}
+		break;
 	case 3:
 		operNode = createNode(NodeType::NUMBER);
 		break;

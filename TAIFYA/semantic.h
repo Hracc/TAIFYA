@@ -19,5 +19,6 @@ struct IdLexeme
 };
 
 void checkDeclaration(shared_ptr<Node> node);
+void checkAssigment(shared_ptr<Node> node);
 
-extern unordered_map<string,IdLexeme> TI_semantic;
+extern unordered_map<int,IdLexeme> TI_semantic;
