@@ -17,6 +17,7 @@ using std::endl;
 // Тип для синтаксического древа
 // !!! ТИПЫ БУДУТ ПОПОЛНЯТЬСЯ И МЕНЯТЬСЯ НА ЭТАПЕ СЕМАНТИЧЕСКОГО АНАЛИЗАТОРА !!!
 enum class NodeType {
+	UNKNOWN, // Стандартное значение. Для семантического. 
 
 // Тип чисел 
 	INT,
@@ -29,13 +30,18 @@ enum class NodeType {
 	NUMBER,
 	IDENTIFIER,
 
-// Пр типы
+// Тип для операций
 	EXPR_OPERATION,
 	BOOL_OPERATION,
 	NUMB_OPERATION,
+
+// Тип для булева
 	NOT,
 	TRUE,
 	FALSE,
+// Тип для скобок
+	BRACKET_OPEN,
+	BRACKET_CLOSE,
 
 // Основа программы
 	PROGRAM,		// Начало программ

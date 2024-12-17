@@ -36,5 +36,5 @@ enum class SyntaxErr {
     OutOfBounds
 };
 
-void err_proc(string symbol);
-void err_proc(SyntaxErr err);
+void syntax_err_proc(string symbol);
+void syntax_err_proc(SyntaxErr err);

@@ -2,7 +2,10 @@
 
 #include "tables.h"
 #include "semantic.h"
+#include "semanticErr.h"
+
 #include "syntaxTree.h"
+unsigned int linePosition = 0;
 
 unordered_map<int, IdLexeme> TI_semantic;
 
@@ -11,27 +14,27 @@ NodeType checkOperand(shared_ptr<Node> node);
 NodeType checkTerm(shared_ptr<Node> node);
 NodeType checkFactor(shared_ptr<Node> node);
 
-bool isTypeId(shared_ptr<Node> node) {
+static bool isTypeId(shared_ptr<Node> node) {
 	NodeType typeNode = node->type;
 	return (typeNode == NodeType::INT || typeNode == NodeType::DOUBLE || typeNode == NodeType::BOOL);
 }
 
-bool isDescrID(shared_ptr<Node> node, unordered_map<int, IdLexeme> table) {
+static bool isDescrID(shared_ptr<Node> node, unordered_map<int, IdLexeme> table) {
 	if (table.find(node->lexem.valueNumb) != table.end()) {
 		return true;
 	}
 	return false;
 }
 
-bool isDescrID(shared_ptr<Node> node) {
+static bool isDescrID(shared_ptr<Node> node) {
 	if (TI_semantic.find(node->lexem.valueNumb) != TI_semantic.end()) {
 		return true;
 	}
 	return false;
 }
 
-string getNameId(int valueId) {
-	for (auto pair : TI) {
+static string getNameId(int valueId) {
+	for (auto& pair : TI) {
 		if (pair.second == valueId) {
 			return pair.first;
 		}
@@ -39,7 +42,7 @@ string getNameId(int valueId) {
 	return "";
 }
 
-string printType(NodeType type) {
+static string printType(NodeType type) {
 	switch (type)
 	{
 	case NodeType::INT:
@@ -53,7 +56,7 @@ string printType(NodeType type) {
 	}
 }
 
-void printTable() {
+static void printTable() {
 	// Для проверки
 	for (const auto& pair : TI_semantic) {
 		std::cout << "Key: " << pair.first
@@ -62,10 +65,10 @@ void printTable() {
 	}
 }
 
-NodeType findNumbType(int value) {
+static NodeType findNumbType(int value) {
 	string number;
 
-	for (auto pair : TN) {
+	for (auto& pair : TN) {
 		if (pair.second == value) {
 			number = pair.first;
 			break;
@@ -90,9 +93,9 @@ void checkDeclaration(shared_ptr<Node> node) {
 	for (shared_ptr<Node> child : node->children) {
 		if (isTypeId(child)) {
 			NodeType type = child->type;
-			for (auto id : current_Id) {
+			for (auto& id : current_Id) {
 				if (TI_semantic.find(id.first) != TI_semantic.end()) {
-					throw std::runtime_error("Identifier is already declared");
+					semant_err_proc(SemantErr::IdAlreadyDeclared, child, getNameId(id.first));
 				}
 				id.second.type = type;
 				TI_semantic[id.first] = id.second;
@@ -105,8 +108,7 @@ void checkDeclaration(shared_ptr<Node> node) {
 		IdLexeme idLex;
 
 		if (isDescrID(child, current_Id)) {
-			throw std::runtime_error("Identifier is already declared");
-			continue;
+			semant_err_proc(SemantErr::IdAlreadyDeclared, child, getNameId(valueNumb));
 		}
 		idLex.name = getNameId(valueNumb);
 		idLex.type = child->type;
@@ -118,155 +120,24 @@ void checkCondition(shared_ptr<Node> node) {
 	for (shared_ptr<Node> child : node->children) {
 		if (child->type == NodeType::EXPRESSION) {
 			if (checkExpression(child) != NodeType::BOOL) {
-				throw std::runtime_error("Invalid Condition Type");
+				child->lexem.linePos = linePosition;
+				semant_err_proc(SemantErr::InvalidCondition,child);
 			}
 		}
 	}
 }
 
 void checkAssigment(shared_ptr<Node> node) {
-	NodeType idType;
+	NodeType idType = NodeType::UNKNOWN;
 	for (shared_ptr<Node> child : node->children) {
 		if (child->type == NodeType::IDENTIFIER) {
 			idType = TI_semantic[child->lexem.valueNumb].type;
 		}
 		else if (child->type == NodeType::EXPRESSION) {
 			if (checkExpression(child) != idType) {
-				throw std::runtime_error("Invalid Assigment Type");
+				child->lexem.linePos = linePosition;
+				semant_err_proc(SemantErr::InvalidAssigment,child);
 			}
-		}
-	}
-}
-
-NodeType checkExpression(shared_ptr<Node> node) {
-	bool haveOperation = false;
-	NodeType leftExprType, rightExprType, resultExprType;
-	for (shared_ptr<Node> child : node->children) {
-		if (child->type == NodeType::OPERAND) {
-			if (!haveOperation) {
-				leftExprType = checkOperand(child);
-			}
-			else {
-				rightExprType = checkOperand(child);
-				if (leftExprType != rightExprType) {
-					throw std::runtime_error("Different type");
-				}
-				leftExprType = rightExprType;
-			}
-		}
-		else if (child->type == NodeType::EXPR_OPERATION) {
-			haveOperation = true;
-		}
-	}
-	if (haveOperation) {
-		return NodeType::BOOL;
-	}
-	else {
-		return leftExprType;
-	}
-}
-
-NodeType checkOperand(shared_ptr<Node> node) {
-
-	bool haveNumbOperation = false;
-	bool haveBoolOperation = false;
-	NodeType leftOperType, rightOperType;
-	for (shared_ptr<Node> child : node->children) {
-		if (child->type == NodeType::TERM) {
-			if (!haveNumbOperation && !haveBoolOperation) {
-				leftOperType = checkTerm(child);
-			}
-			else {
-				rightOperType = checkTerm(child);
-				if (haveBoolOperation &&
-					(leftOperType != NodeType::BOOL ||
-						rightOperType != NodeType::BOOL)) {
-					throw std::runtime_error("Incorrect operation");
-				}
-				else if (leftOperType != rightOperType) {
-					throw std::runtime_error("Different type");
-				}
-				leftOperType = rightOperType;
-				haveNumbOperation = false;
-				haveBoolOperation = false;
-			}
-		}
-		else if (child->type == NodeType::NUMB_OPERATION) {
-			haveNumbOperation = true;
-		}
-		else if (child->type == NodeType::BOOL_OPERATION) {
-			haveBoolOperation = true;
-		}
-	}
-	if (haveBoolOperation) {
-		return NodeType::BOOL;
-	}
-	else {
-		return leftOperType;
-	}
-}
-
-NodeType checkTerm(shared_ptr<Node> node) {
-	bool haveNumbOperation = false;
-	bool haveBoolOperation = false;
-	NodeType leftTermType, rightTermType;
-	for (shared_ptr<Node> child : node->children) {
-		if (child->type == NodeType::FACTOR) {
-			if (!haveNumbOperation && !haveBoolOperation) {
-				leftTermType = checkFactor(child);
-			}
-			else {
-				rightTermType = checkFactor(child);
-				if (haveBoolOperation && 
-					(leftTermType != NodeType::BOOL ||
-					rightTermType != NodeType::BOOL)) {
-					throw std::runtime_error("Incorrect operation");
-				}
-				else if (leftTermType != rightTermType) {
-					throw std::runtime_error("Different type");
-				}
-				leftTermType = rightTermType;
-				haveNumbOperation = false;
-				haveBoolOperation = false;
-			}
-		}
-		else if (child->type == NodeType::NUMB_OPERATION) {
-			haveNumbOperation = true;
-		}
-		else if (child->type == NodeType::BOOL_OPERATION) {
-			haveBoolOperation = true;
-		}
-	}
-	if (haveBoolOperation) {
-		return NodeType::BOOL;
-	}
-	else {
-		return leftTermType;
-	}
-}
-
-NodeType checkFactor(shared_ptr<Node> node) {
-	bool isBack = false;
-	for (shared_ptr<Node> child : node->children) {
-		if (isBack) {
-			return checkExpression(child);
-		}
-		if (child->type == NodeType::IDENTIFIER) {
-			if (isDescrID(child)) {
-				return TI_semantic[child->lexem.valueNumb].type;
-			}
-			else {
-				throw std::runtime_error("Identifier is not declared");
-			}
-		}
-		else if (child->type == NodeType::NUMBER) {
-			return findNumbType(child->lexem.valueNumb);
-		}
-		else if (child->type == NodeType::TRUE || child->type == NodeType::FALSE) {
-			return NodeType::BOOL;
-		}
-		else {
-			isBack = true;
 		}
 	}
 }
@@ -274,8 +145,8 @@ NodeType checkFactor(shared_ptr<Node> node) {
 void checkInput(shared_ptr<Node> node) {
 	for (shared_ptr<Node> child : node->children) {
 		if (child->type == NodeType::IDENTIFIER) {
-			if (isDescrID(child)) {
-				throw std::runtime_error("Identifier is not declared");
+			if (!isDescrID(child)) {
+				semant_err_proc(SemantErr::IdNotDeclared,child, getNameId(child->lexem.valueNumb));
 			}
 		}
 	}
@@ -294,8 +165,133 @@ void checkLoopFor(shared_ptr<Node> node) {
 	for (shared_ptr<Node> child : node->children) {
 		if (child->type == NodeType::EXPRESSION) {
 			if (checkExpression(child) != NodeType::BOOL) {
-				throw std::runtime_error("Invalid Condition Type");
+				child->lexem.linePos = linePosition;
+				semant_err_proc(SemantErr::InvalidCondition, child);
 			}
 		}
 	}
 }
+
+// Функции для обработки выражений
+NodeType checkExpression(shared_ptr<Node> node) {
+	bool haveOperation = false;
+	NodeType leftExprType=NodeType::UNKNOWN, rightExprType;
+	for (shared_ptr<Node> child : node->children) {
+		if (child->type == NodeType::OPERAND) {
+			if (!haveOperation) {
+				leftExprType = checkOperand(child);
+			}
+			else {
+				rightExprType = checkOperand(child);
+				if (leftExprType != rightExprType) {
+					child->lexem.linePos = linePosition;
+					semant_err_proc(SemantErr::DifferentType, child);
+				}
+				leftExprType = NodeType::BOOL;
+			}
+		}
+		else if (child->type == NodeType::EXPR_OPERATION) {
+			haveOperation = true;
+		}
+	}
+	return leftExprType;
+}
+
+NodeType checkOperand(shared_ptr<Node> node) {
+
+	bool haveOperation = false;
+	NodeType leftOperType = NodeType::UNKNOWN, rightOperType;
+	for (shared_ptr<Node> child : node->children) {
+		if (child->type == NodeType::TERM) {
+			if (!haveOperation) {
+				leftOperType = checkTerm(child);
+			}
+			else {
+				rightOperType = checkTerm(child);
+				 if (leftOperType != rightOperType) {
+					 child->lexem.linePos = linePosition;
+					 semant_err_proc(SemantErr::DifferentType, child);
+					 //throw std::runtime_error("Different type");
+				}
+				leftOperType = rightOperType;
+				haveOperation = false;
+			}
+		}
+		else if (child->type == NodeType::NUMB_OPERATION || 
+			child->type == NodeType::BOOL_OPERATION) {
+			haveOperation = true;
+		}
+	}
+	return leftOperType;
+}
+
+NodeType checkTerm(shared_ptr<Node> node) {
+	bool haveNumbOperation = false;
+	NodeType leftTermType = NodeType::UNKNOWN, rightTermType;
+	for (shared_ptr<Node> child : node->children) {
+		if (child->type == NodeType::FACTOR) {
+			if (!haveNumbOperation) {
+				leftTermType = checkFactor(child);
+			}
+			else {
+				rightTermType = checkFactor(child);
+				if (leftTermType != rightTermType) {
+					//throw std::runtime_error("Different type");
+					child->lexem.linePos = linePosition;
+					semant_err_proc(SemantErr::DifferentType, child);
+				}
+				leftTermType = rightTermType;
+				haveNumbOperation = false;
+			}
+		}
+		else if (child->type == NodeType::NUMB_OPERATION || 
+			child->type == NodeType::BOOL_OPERATION) {
+			haveNumbOperation = true;
+		}
+	}
+	return leftTermType;
+}
+
+
+static void setLine(shared_ptr<Node> node) {
+	linePosition = node->lexem.linePos;
+}
+NodeType checkFactor(shared_ptr<Node> node) {
+	bool isBack = false;
+	for (shared_ptr<Node> child : node->children) {
+		if (isBack) {
+			return checkExpression(child);
+		}
+		if (child->type == NodeType::IDENTIFIER) {
+			if (isDescrID(child)) {
+				setLine(child);
+				return TI_semantic[child->lexem.valueNumb].type;
+			}
+			else {
+				semant_err_proc(SemantErr::IdNotDeclared, child, getNameId(child->lexem.valueNumb));
+			}
+		}
+		else if (child->type == NodeType::NUMBER) {
+			setLine(child);
+			return findNumbType(child->lexem.valueNumb);
+		}
+		else if (child->type == NodeType::TRUE || child->type == NodeType::FALSE) {
+			setLine(child);
+			return NodeType::BOOL;
+		}
+		else if (child->type == NodeType::BRACKET_OPEN) {
+			isBack = true;
+		}
+		else if (child->type == NodeType::BRACKET_CLOSE ||
+			child->type == NodeType::NOT) {
+
+		}
+		else if (child->type == NodeType::FACTOR) {
+			return checkFactor(child);
+		}
+		else {
+			semant_err_proc(SemantErr::UnexpectedNode,child);
+		}
+	}
+}
+

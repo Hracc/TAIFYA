@@ -1,5 +1,27 @@
 {
-	a,b,c:%;;
-	c1:$;;
-	for(;a;) output(a);
+	/* Зона для тестирования */
+	
+	int,a1:%;double:!;;
+	bool1,bool2,bool3:$;;
+
+	/* 
+		Примеры возможных написаний кода:
+			Описание:
+				int,a1:%;double:!;;
+				b1,bl2,bol3:$;;
+			Присваивание:
+				let a1 = 2d;
+				a1 = 3b;
+			Составной:
+				[];
+			Условие:
+				if(b1) then a1 = 4h end_else;
+			Фиксированный цикл:
+				for(;;) double = 3e2;
+			Условный цикл:
+				do while bl2 or b1 let double = 2.5e-2 loop;
+			Ввод и вывод:
+			input(double bl2);
+			output(25E+2);
+	*/
 }

@@ -54,6 +54,9 @@
     <ClCompile Include="Semantic.cpp">
       <Filter>Исходные файлы\semantic</Filter>
     </ClCompile>
+    <ClCompile Include="SemanticErr.cpp">
+      <Filter>Исходные файлы\semantic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.h">
@@ -72,6 +75,9 @@
       <Filter>Файлы заголовков\syntax</Filter>
     </ClInclude>
     <ClInclude Include="semantic.h">
+      <Filter>Файлы заголовков\semantic</Filter>
+    </ClInclude>
+    <ClInclude Include="semanticErr.h">
       <Filter>Файлы заголовков\semantic</Filter>
     </ClInclude>
   </ItemGroup>

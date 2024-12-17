@@ -131,6 +131,7 @@
     <ClInclude Include="lexem.h" />
     <ClInclude Include="lexer.h" />
     <ClInclude Include="semantic.h" />
+    <ClInclude Include="semanticErr.h" />
     <ClInclude Include="syntax.h" />
     <ClInclude Include="tables.h" />
     <ClInclude Include="syntaxTree.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="LexerScan.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Semantic.cpp" />
+    <ClCompile Include="SemanticErr.cpp" />
     <ClCompile Include="SyntaxFunc.cpp" />
     <ClCompile Include="SyntaxScan.cpp" />
     <ClCompile Include="Tables.cpp" />

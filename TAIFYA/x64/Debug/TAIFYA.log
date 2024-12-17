@@ -1,5 +1,3 @@
 ﻿  Semantic.cpp
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\Semantic.cpp(143,40): warning C4101: resultExprType: неиспользованная локальная переменная
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\Semantic.cpp(54,1): warning C4715: printType: значение возвращается не при всех путях выполнения
-C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\Semantic.cpp(272,1): warning C4715: checkFactor: значение возвращается не при всех путях выполнения
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\Semantic.cpp(296,1): warning C4715: checkFactor: значение возвращается не при всех путях выполнения
   TAIFYA.vcxproj -> C:\Users\79379\Documents\GitHub\TAIFYA\x64\Debug\TAIFYA.exe

@@ -57,7 +57,7 @@ void nill() {
 void put(unordered_map<string, int>& table) {
 	auto it = table.find(S);
 	if (it == table.end()) {
-		z = table.size() + 1;
+		z = static_cast<int>(table.size() + 1);
 		table[S] = z;
 		if (printStatus) {
 			std::cout << "\t put & ";
@@ -69,7 +69,7 @@ void put(unordered_map<string, int>& table) {
 	}
 }
 // Добавление значения в таблицу (функция out)
-string findKeyByValue(const unordered_map<string, int>& table, int value) {
+static string findKeyByValue(const unordered_map<string, int>& table, int value) {
 	for (const auto& pair : table) {
 		if (pair.second == value) {
 			return pair.first;
@@ -78,7 +78,7 @@ string findKeyByValue(const unordered_map<string, int>& table, int value) {
 	return ""; 
 }
 
-void printLex(int t, int v) {
+static void printLex(int t, int v) {
 	unordered_map<string, int> table;
 	switch (t) {
 	case 1:

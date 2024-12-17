@@ -10,11 +10,8 @@ using std::unordered_map;
 struct IdLexeme
 {
 	string name;
-	NodeType type;
-	int addr;
-	
-	//IdLexeme(string n, bool d)
-	//	:name(n), descrt(d) {}
+	NodeType type= NodeType::UNKNOWN;
+	int addr = 0;
 };
 
 void checkDeclaration(shared_ptr<Node> node);

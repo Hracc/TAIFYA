@@ -74,11 +74,11 @@ shared_ptr<Node> PROGRAMM() {
 			}
 		}
 		if (!EQ("}")) {
-			err_proc("}");
+			syntax_err_proc("}");
 		}
 	}
 	else {
-		err_proc("{");
+		syntax_err_proc("{");
 	}
 
 	return programmNode;
@@ -96,7 +96,7 @@ shared_ptr<Node> BODY() {
 			gl();
 		}
 		else {
-			err_proc(";");
+			syntax_err_proc(";");
 		}
 	}
 	else if (EQ("[") ||
@@ -108,11 +108,11 @@ shared_ptr<Node> BODY() {
 			gl();
 		}
 		else {
-			err_proc(";");
+			syntax_err_proc(";");
 		}
 	}
 	else {
-		err_proc(SyntaxErr::UnexpectedLexem);
+		syntax_err_proc(SyntaxErr::UnexpectedLexem);
 	}
 	return body;
 }
@@ -133,7 +133,7 @@ shared_ptr<Node> DECL_OR_ASSIGM() {
 		descrorprisv = ASSIGNMENT(id);
 	}
 	else {
-		err_proc(SyntaxErr::UnexpectedLexem); // Временно такая обработка
+		syntax_err_proc(SyntaxErr::UnexpectedLexem); // Временно такая обработка
 	}
 	return descrorprisv;
 }
@@ -154,7 +154,7 @@ shared_ptr<Node> DECLARATION(shared_ptr<Node> id) {
 			}
 		}
 		else {
-			err_proc(":");
+			syntax_err_proc(":");
 		}
 	}
 	if (scanStatus) {
@@ -172,13 +172,13 @@ shared_ptr<Node> DECLARATION(shared_ptr<Node> id) {
 			gl();
 		}
 		else {
-			err_proc(SyntaxErr::ExpectedType);
+			syntax_err_proc(SyntaxErr::ExpectedType);
 		}
 		if (EQ(";")) {
 			gl();
 		}
 		else {
-			err_proc(";");
+			syntax_err_proc(";");
 		}
 	}
 	declarationNode->addChild(typeNode);
@@ -221,7 +221,7 @@ shared_ptr<Node> OPERATOR() {
 		checkOutput(oper);
 	}
 	else {
-		err_proc(SyntaxErr::UnexpectedLexem);
+		syntax_err_proc(SyntaxErr::UnexpectedLexem);
 	}
 	return oper;
 }
@@ -237,14 +237,14 @@ shared_ptr<Node> SOSTAVNOY() {
 			gl();
 		}
 		else {
-			err_proc(";");
+			syntax_err_proc(";");
 		}
 	} while (!EQ("]") && scanStatus);
 	if (EQ("]")) {
 		gl();
 	}
 	else {
-		err_proc("]");
+		syntax_err_proc("]");
 	}
 	return compoundNode;
 }
@@ -262,16 +262,20 @@ shared_ptr<Node> ASSIGNMENT(shared_ptr<Node> id) {
 				assigmentNode->addChild(EXPRESSION());
 			}
 			else {
-				err_proc("=");
+				syntax_err_proc("=");
 			}
 		}
 		else {
-			err_proc(SyntaxErr::ExpectedIdentifier);
+			syntax_err_proc(SyntaxErr::ExpectedIdentifier);
 		}
 	}
 	else {
 		assigmentNode->addChild(id);
-		assigmentNode->addChild(EXPRESSION());
+		gl();
+		if (EQ("=")) {
+			gl();
+			assigmentNode->addChild(EXPRESSION());
+		}
 	}
 	return assigmentNode;
 }
@@ -305,11 +309,11 @@ shared_ptr<Node> IF_ELSE() {
 			gl();
 		}
 		else {
-			err_proc("end_else");
+			syntax_err_proc("end_else");
 		}
 	}
 	else {
-		err_proc("then");
+		syntax_err_proc("then");
 	}
 	return if_elseNode;
 }
@@ -333,7 +337,7 @@ shared_ptr<Node> FOR() {
 					gl();
 				}
 				else {
-					err_proc(";");
+					syntax_err_proc(";");
 				}
 			}
 		}
@@ -351,12 +355,12 @@ shared_ptr<Node> FOR() {
 
 					}
 					else {
-						err_proc(";");
+						syntax_err_proc(";");
 					}
 				}
 			}
 			else {
-				err_proc(";");
+				syntax_err_proc(";");
 			}
 		}
 		if (EQ(")")) {
@@ -370,12 +374,12 @@ shared_ptr<Node> FOR() {
 				OPERATOR();
 			}
 			else {
-				err_proc(")");
+				syntax_err_proc(")");
 			}
 		}
 	}
 	else {
-		err_proc("(");
+		syntax_err_proc("(");
 	}
 	return loop_for;
 }
@@ -400,11 +404,11 @@ shared_ptr<Node> DO_WHILE() {
 			gl();
 		}
 		else {
-			err_proc("loop");
+			syntax_err_proc("loop");
 		}
 	}
 	else {
-		err_proc("while");
+		syntax_err_proc("while");
 	}
 	return do_while;
 }
@@ -423,7 +427,7 @@ shared_ptr<Node> INPUT() {
 				gl();
 			}
 			else {
-				err_proc(SyntaxErr::ExpectedIdentifier);
+				syntax_err_proc(SyntaxErr::ExpectedIdentifier);
 				break;
 			}
 		} while (!EQ(")") && scanStatus);
@@ -432,11 +436,11 @@ shared_ptr<Node> INPUT() {
 			gl();
 		}
 		else {
-			err_proc(")");
+			syntax_err_proc(")");
 		}
 	}
 	else {
-		err_proc("(");
+		syntax_err_proc("(");
 	}
 	return input;
 }
@@ -457,11 +461,11 @@ shared_ptr<Node> OUTPUT() {
 			gl();
 		}
 		else {
-			err_proc(")");
+			syntax_err_proc(")");
 		}
 	}
 	else {
-		err_proc("(");
+		syntax_err_proc("(");
 	}
 	return output;
 }
@@ -524,11 +528,11 @@ shared_ptr<Node> FACTOR() {
 			gl();
 		}
 		else {
-			err_proc(")");
+			syntax_err_proc(")");
 		}
 	}
 	else {
-		err_proc(SyntaxErr::InvalidExpression);
+		syntax_err_proc(SyntaxErr::InvalidExpression);
 	}
 	return mnog;
 }
@@ -562,6 +566,12 @@ shared_ptr<Node> SYMBOL() {
 		}
 		else if (EQ("<") || EQ(">") || EQ("=") || EQ("<>") || EQ("<=") || EQ(">=")) {
 			operNode = createNode(NodeType::EXPR_OPERATION);
+		}
+		else if (EQ("(")) {
+			operNode = createNode(NodeType::BRACKET_OPEN);
+		}
+		else if (EQ(")")) {
+			operNode = createNode(NodeType::BRACKET_CLOSE);
 		}
 		else {
 			operNode = createNode(NodeType::LIMITER);

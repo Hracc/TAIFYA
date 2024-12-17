@@ -16,14 +16,11 @@ Lexeme currentLexeme;
 //Чтение лексем
 void gl() {
     if (currentLexemeIndex >= lexemes.size()) {
-        err_proc(SyntaxErr::OutOfBounds);
+        syntax_err_proc(SyntaxErr::OutOfBounds);
         return;
     }
     isID = false;
     isNumb = false;
-
-    int tableNumb, value;
-    char comma;
 
     currentLexeme = lexemes[currentLexemeIndex];
 
@@ -66,7 +63,7 @@ void checkAndAdvance(const std::string& expectedLexem) {
         gl();
     }
     else {
-        err_proc(expectedLexem);
+        syntax_err_proc(expectedLexem);
     }
 }
 
@@ -79,37 +76,40 @@ string getPrintSymbol() {
 }
 
 // Обработка ошибок
-void err_proc(SyntaxErr err) {
+void syntax_err_proc(SyntaxErr err) {
     unsigned int line = currentLexeme.linePos;
-    std::cout << "[SyntaxError] Line "<< line <<": ";
+    std::string error_message = "[SyntaxError] Line " + std::to_string(line) + ": ";
+
     switch (err) {
     case SyntaxErr::ExpectedType:
-        std::cout << "Expected type for Identifier"<< endl;
+        error_message += "Expected type for Identifier";
         break;
     case SyntaxErr::UnexpectedLexem:
-        std::cout << "Unexpected lexem in body of programm" << endl;
+        error_message += "Unexpected lexem in body of program";
         break;
     case SyntaxErr::ExpectedIdentifier:
-        std::cout << "Expected identifier" << endl;
+        error_message += "Expected identifier";
         break;
     case SyntaxErr::InvalidExpression:
-        std::cout << "Invalid Expression" << endl;
+        error_message += "Invalid Expression";
         break;
     case SyntaxErr::OutOfBounds:
-        std::cerr << "Out of bounds lexeme access" << std::endl;
-        scanStatus = false;
+        error_message += "Out of bounds lexeme access";
         break;
     default:
-        std::cerr << "Unknown Error" << std::endl;
+        error_message += "Unknown Error";
     }
+
     scanStatus = false;
+    throw std::runtime_error(error_message);
 }
 
-void err_proc(string symbol) {
+void syntax_err_proc(std::string symbol) {
     unsigned int line = currentLexeme.linePos;
-    std::cout << "[SyntaxError] Line " << line << ": ";
-    std::cout << "Missed lexem: '"<< symbol <<"'" << endl;
+    std::string error_message = "[SyntaxError] Line " + std::to_string(line) +
+        ": Missed lexem: '" + symbol + "'";
     scanStatus = false;
+    throw std::runtime_error(error_message);
 }
 
 shared_ptr<Node> createNode(NodeType type, string description) {
