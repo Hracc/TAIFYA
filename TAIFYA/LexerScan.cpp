@@ -10,6 +10,10 @@ bool lexScan() {
 	std::cout << endl << "Lexer: Start ============================================" << endl << endl;
 	states CS;
 	CS = H;
+	bool unskipSpace = false;
+	bool isInput = false;
+	bool isOutput = false;
+	bool isBackup = false;
 	gc();
 	if (printStatus) {
 		std::cout << "Line: 1" << endl;
@@ -20,7 +24,12 @@ bool lexScan() {
 		case H:
 			// Пропуск пустых символов и проверка на конец файла
 			while (isspace(CH) && canRead) {
-				if (CH == '\n') {
+				if (CH == ' ') {
+					if (unskipSpace) {
+						out(2, 21);
+					}
+				}
+				else if (CH == '\n') {
 					line++;
 					if (printStatus) {
 						std::cout << "Line: " << line << endl;
@@ -97,9 +106,37 @@ bool lexScan() {
 				out(1, 2);
 				CS = V;
 			}
+			else if (CH == '(') {
+				out(2, 17);
+				if (isInput || isOutput) {
+					isBackup = true;
+				}
+				gc();
+			}
+			else if (CH == ')') {
+				out(2, 18);
+				if (isInput || isOutput) {
+					isInput = false;
+					isOutput = false;
+					isBackup = false;
+				}
+				gc();
+			}
 			// Ограничители из одного символа
 			else {
-				CS = OG;
+				nill();
+				add();
+				look(TL);
+				if (z == 0) {
+					reportErr(LexerErr::UnknownSymbol, CH);
+					CS = ER;
+				}
+				else
+				{
+					out(2, z);
+					gc();
+					CS = H;
+				}
 			}
 			break;
 // Начало обработки след символов
@@ -111,6 +148,12 @@ bool lexScan() {
 			}
 			look(TW);
 			if (z != 0) { 
+				if (z == 15) {
+					isInput = true;
+				}
+				else if (z == 16) {
+					isOutput = true;
+				}
 				out(1, z); 
 			}
 			else {
@@ -121,6 +164,9 @@ bool lexScan() {
 				else {
 					put(TI);
 					out(4, z);
+					if (isBackup) {
+						unskipSpace = true;
+					}
 				}
 			}
 			CS = H;
@@ -301,6 +347,7 @@ bool lexScan() {
 			else if (checkTL()) {
 				put(TN);
 				out(3, z);
+				if (isOutput) { unskipSpace = true; }
 				CS = H;
 			}
 			else {
@@ -312,6 +359,7 @@ bool lexScan() {
 			if (checkTL()) {
 				put(TN);
 				out(3, z);
+				if (isOutput) { unskipSpace = true; }
 				CS = H;
 			}
 			else {
@@ -334,6 +382,7 @@ bool lexScan() {
 			else if (checkTL()) {
 				put(TN);
 				out(3, z);
+				if (isOutput) { unskipSpace = true; }
 				CS = H;
 			}
 			else {
@@ -345,6 +394,7 @@ bool lexScan() {
 			if (checkTL()) {
 				put(TN);
 				out(3, z);
+				if (isOutput) { unskipSpace = true; }
 				CS = H;
 			}
 			else {
@@ -367,6 +417,7 @@ bool lexScan() {
 			else if (checkTL()) {
 				put(TN);
 				out(3, z);
+				if (isOutput) { unskipSpace = true; }
 				CS = H;
 			}
 			else {
@@ -388,6 +439,7 @@ bool lexScan() {
 				if (checkTL()) {
 					put(TN);
 					out(3, z);
+					if (isOutput) { unskipSpace = true; }
 					CS = H;
 				}
 				else {
@@ -419,6 +471,7 @@ bool lexScan() {
 					CS = H;
 					put(TN);
 					out(3, z);
+					if (isOutput) { unskipSpace = true; }
 				}
 				else {
 					reportErr(LexerErr::InvalidNumberFormat);
@@ -439,6 +492,7 @@ bool lexScan() {
 			else if (checkTL()) {
 				put(TN);
 				out(3, z);
+				if (isOutput) { unskipSpace = true; }
 				CS = H;
 			}
 			else {
@@ -459,6 +513,7 @@ bool lexScan() {
 				if (checkTL()) {
 					put(TN);
 					out(3, z);
+					if (isOutput) { unskipSpace = true; }
 					CS = H;
 				}
 				else {
@@ -575,21 +630,6 @@ bool lexScan() {
 			return false;
 		case V:
 			return true;
-// Ограничители из одного символа
-		case OG:
-			nill(); 
-			add();
-			look(TL);
-			if (z==0) {
-				reportErr(LexerErr::UnknownSymbol, CH);
-				CS = ER;
-			} else
-			{
-				out(2, z);
-				gc();
-				CS = H;
-			}
-			break;
 		}
 	}
 }

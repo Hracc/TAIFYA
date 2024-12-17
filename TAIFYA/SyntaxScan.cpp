@@ -419,9 +419,9 @@ shared_ptr<Node> INPUT() {
 
 	gl();
 	if (EQ("(")) {
-		gl();
 		do
 		{
+			gl();
 			if (isID) {
 				input->addChild(SYMBOL());
 				gl();
@@ -430,8 +430,7 @@ shared_ptr<Node> INPUT() {
 				syntax_err_proc(SyntaxErr::ExpectedIdentifier);
 				break;
 			}
-		} while (!EQ(")") && scanStatus);
-
+		} while (EQ(" ") && scanStatus);
 		if (EQ(")")) {
 			gl();
 		}
@@ -451,11 +450,11 @@ shared_ptr<Node> OUTPUT() {
 
 	gl();
 	if (EQ("(")) {
-		gl();
 		do
 		{
+			gl();
 			output->addChild(EXPRESSION());
-		} while (!EQ(")") && scanStatus);
+		} while (EQ(" ") && scanStatus);
 
 		if (EQ(")")) {
 			gl();
