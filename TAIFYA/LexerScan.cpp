@@ -563,6 +563,9 @@ bool lexScan() {
 		case C1:
 			gc();
 			while (CH != '*' && canRead) {
+				if (CH == '\n') {
+					line++;
+				}
 				gc();
 			}
 			if (!canRead) {

@@ -85,7 +85,7 @@ void syntax_err_proc(SyntaxErr err) {
         error_message += "Expected type for Identifier";
         break;
     case SyntaxErr::UnexpectedLexem:
-        error_message += "Unexpected lexem in body of program";
+        error_message += "Unexpected lexem";
         break;
     case SyntaxErr::ExpectedIdentifier:
         error_message += "Expected identifier";

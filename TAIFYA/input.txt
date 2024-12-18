@@ -4,7 +4,28 @@
 	int,a1:%;double:!;;
 	bool1,bool2,bool3:$;;
 
-	for(a1=0;bool1;) [input(a1 bool2); input(a1);];
+	if(bool2 or bool3) then
+		let a1 = 25o
+	else
+		a1 = 10h
+	end_else;
+
+	do while (a1<10101b) and bool3 [double = 23.1;] loop;
+
+	d1:!;;
+	int2:%;;
+	if(not (1h>20) or (bool1 and bool2 and bool3) or (a1=2)) then [
+		double =25e10;
+		d1=1.0e+25;
+		output(d1>.1);
+	]
+	end_else;
+
+	for(;bool1;) [
+		input(bool3 a1); 
+		output(a1);
+	];
+
 
 	/* 
 		Примеры возможных написаний кода:

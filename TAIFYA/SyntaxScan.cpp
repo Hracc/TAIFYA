@@ -45,7 +45,7 @@ bool syntaxScan() {
 	std::cout << endl << "Syntax & Semantic: Start ============================================" << endl;
 	try {
 		shared_ptr<Node> RunProgramm = PROGRAMM();
-		printTable();
+		//printTable();
 
 		if (scanStatus) {
 			Node::printRoot(RunProgramm);
@@ -233,7 +233,6 @@ shared_ptr<Node> SOSTAVNOY() {
 	gl();
 	do
 	{
-		std::cout <<"'" << symbol<< "'" << endl;
 		compoundNode->addChild(OPERATOR());
 		if (EQ(";")) {
 			gl();
