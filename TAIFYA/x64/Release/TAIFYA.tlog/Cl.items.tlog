@@ -1,4 +1,8 @@
 C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerFunc.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\LexerFunc.obj
 C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\LexerScan.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\LexerScan.obj
 C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\main.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\main.obj
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\Semantic.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\Semantic.obj
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SemanticErr.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\SemanticErr.obj
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxFunc.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\SyntaxFunc.obj
+C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\SyntaxScan.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\SyntaxScan.obj
 C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\Tables.cpp;C:\Users\79379\Documents\GitHub\TAIFYA\TAIFYA\x64\Release\Tables.obj

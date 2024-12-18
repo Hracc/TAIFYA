@@ -4,6 +4,8 @@
 	int,a1:%;double:!;;
 	bool1,bool2,bool3:$;;
 
+	a1 = 5 * (5 + 5);
+
 	if(bool2 or bool3) then
 		let a1 = 25o
 	else
@@ -25,26 +27,4 @@
 		input(bool3 a1); 
 		output(a1);
 	];
-
-
-	/* 
-		Примеры возможных написаний кода:
-			Описание:
-				int,a1:%;double:!;;
-				b1,bl2,bol3:$;;
-			Присваивание:
-				let a1 = 2d;
-				a1 = 3b;
-			Составной:
-				[];
-			Условие:
-				if(b1) then a1 = 4h end_else;
-			Фиксированный цикл:
-				for(;;) double = 3e2;
-			Условный цикл:
-				do while bl2 or b1 let double = 2.5e-2 loop;
-			Ввод и вывод:
-			input(double bl2);
-			output(25E+2);
-	*/
 }

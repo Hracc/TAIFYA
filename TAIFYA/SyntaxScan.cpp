@@ -23,7 +23,7 @@ shared_ptr<Node> SYMBOL();
 shared_ptr<Node> OPERATOR();
 // Для Оператора
 shared_ptr<Node> SOSTAVNOY();
-shared_ptr<Node> ASSIGNMENT(shared_ptr<Node> id);
+shared_ptr<Node> ASSIGNMENT(shared_ptr<Node> id, bool inOper);
 shared_ptr<Node> IF_ELSE();
 shared_ptr<Node> FOR();
 shared_ptr<Node> DO_WHILE();
@@ -131,7 +131,7 @@ shared_ptr<Node> DECL_OR_ASSIGM() {
 	}
 	else if (EQ("=")) {
 		gl();
-		descrorprisv = ASSIGNMENT(id);
+		descrorprisv = ASSIGNMENT(id, false);
 	}
 	else {
 		syntax_err_proc(SyntaxErr::UnexpectedLexem); // Временно такая обработка
@@ -194,13 +194,13 @@ shared_ptr<Node> OPERATOR() {
 		oper = SOSTAVNOY();
 	}
 	else if (EQ("let")) {
-		oper = ASSIGNMENT(nullptr);
+		oper = ASSIGNMENT(nullptr, false);
 		checkAssigment(oper);
 	}
 	// Для составного оператора
 	else if (isID) {
 		shared_ptr<Node> id = SYMBOL();
-		oper = ASSIGNMENT(id);
+		oper = ASSIGNMENT(id, true);
 		checkAssigment(oper);
 	}
 	else if (EQ("if")) {
@@ -251,7 +251,7 @@ shared_ptr<Node> SOSTAVNOY() {
 }
 
 // Присваивание
-shared_ptr<Node> ASSIGNMENT(shared_ptr<Node> id) {
+shared_ptr<Node> ASSIGNMENT(shared_ptr<Node> id, bool inOperation) {
 	shared_ptr<Node> assigmentNode = createNode(NodeType::ASSIGNMENT,"Assigment");
 	if (id == nullptr) {
 		gl();
@@ -271,10 +271,19 @@ shared_ptr<Node> ASSIGNMENT(shared_ptr<Node> id) {
 		}
 	}
 	else {
-		assigmentNode->addChild(id);
-		gl();
-		if (EQ("=")) {
+		if (inOperation) {
+			assigmentNode->addChild(SYMBOL());
 			gl();
+			if (EQ("=")) {
+				gl();
+				assigmentNode->addChild(EXPRESSION());
+			}
+			else {
+				syntax_err_proc("=");
+			}
+		}
+		else {
+			assigmentNode->addChild(id);
 			assigmentNode->addChild(EXPRESSION());
 		}
 	}
