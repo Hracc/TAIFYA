@@ -81,7 +81,7 @@ static NodeType findNumbType(int value) {
 	if (
 		(number.find('.') != std::string::npos ||
 			number.find_first_of("Ee") != std::string::npos) &&
-		number.back() != 'h') {
+		std::tolower(number.back()) != 'h') {
 		return NodeType::DOUBLE;
 	}
 	else {
@@ -227,7 +227,6 @@ NodeType checkTerm(shared_ptr<Node> node) {
 			else {
 				rightTermType = checkFactor(child);
 				if (leftTermType != rightTermType) {
-					//throw std::runtime_error("Different type");
 					child->lexem.linePos = linePosition;
 					semant_err_proc(SemantErr::DifferentType, child);
 				}
@@ -247,6 +246,7 @@ NodeType checkTerm(shared_ptr<Node> node) {
 static void setLine(shared_ptr<Node> node) {
 	linePosition = node->lexem.linePos;
 }
+
 NodeType checkFactor(shared_ptr<Node> node) {
 	bool isBack = false;
 	for (shared_ptr<Node> child : node->children) {

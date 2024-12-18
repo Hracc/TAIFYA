@@ -6,8 +6,8 @@
 
 #include <chrono>
 
-bool printStatus = true;
-
+bool printLexStatus = true;
+bool printSyntaxStatus = true;
 
 int main() {
 	auto start = std::chrono::high_resolution_clock::now();
@@ -25,9 +25,9 @@ int main() {
 		std::cout << endl << "Lexer: Failed ============================================" << endl << endl;
 	}
 	auto end = std::chrono::high_resolution_clock::now();
-	std::cout << "Execution time: "
-		<< std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
-		<< " ms\n";
+	//std::cout << "Execution time: "
+	//	<< std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
+	//	<< " ms\n";
 
 	return 0;
 }

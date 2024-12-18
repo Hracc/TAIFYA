@@ -45,7 +45,6 @@ void gl() {
     for (const auto& pair : table) {
         if (pair.second == currentLexeme.valueNumb) {
             symbol = pair.first;
-            //std::cout << lex << endl;
             break;
         }
     }

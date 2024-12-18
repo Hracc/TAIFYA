@@ -47,7 +47,7 @@ bool syntaxScan() {
 		shared_ptr<Node> RunProgramm = PROGRAMM();
 		//printTable();
 
-		if (scanStatus) {
+		if (scanStatus && printSyntaxStatus) {
 			Node::printRoot(RunProgramm);
 		}
 	}
@@ -132,6 +132,7 @@ shared_ptr<Node> DECL_OR_ASSIGM() {
 	else if (EQ("=")) {
 		gl();
 		descrorprisv = ASSIGNMENT(id, false);
+		checkAssigment(descrorprisv);
 	}
 	else {
 		syntax_err_proc(SyntaxErr::UnexpectedLexem); // Временно такая обработка
@@ -152,6 +153,7 @@ shared_ptr<Node> DECLARATION(shared_ptr<Node> id) {
 				gl();
 			}
 			else {
+				syntax_err_proc(SyntaxErr::ExpectedIdentifier);
 			}
 		}
 		else {
@@ -231,16 +233,17 @@ shared_ptr<Node> OPERATOR() {
 shared_ptr<Node> SOSTAVNOY() {
 	shared_ptr<Node> compoundNode = createNode(NodeType::COMPOUND,"Compound");
 	gl();
-	do
+	compoundNode->addChild(OPERATOR());
+	while (!EQ("]") && scanStatus)
 	{
-		compoundNode->addChild(OPERATOR());
 		if (EQ(";")) {
 			gl();
 		}
 		else {
 			syntax_err_proc(";");
 		}
-	} while (!EQ("]") && scanStatus);
+		compoundNode->addChild(OPERATOR());
+	}
 	if (EQ("]")) {
 		gl();
 	}
@@ -504,7 +507,7 @@ shared_ptr<Node> OPERAND() {
 }
 
 shared_ptr<Node> TERM() {
-	shared_ptr<Node> slag = createNode(NodeType::TERM,"Slagaemoe");
+	shared_ptr<Node> slag = createNode(NodeType::TERM,"Term");
 
 	slag->addChild(FACTOR());
 	while (EQ("*") || EQ("/") || EQ("and")) {
@@ -516,7 +519,7 @@ shared_ptr<Node> TERM() {
 }
 
 shared_ptr<Node> FACTOR() {
-	shared_ptr<Node> mnog = createNode(NodeType::FACTOR,"Mnog");
+	shared_ptr<Node> mnog = createNode(NodeType::FACTOR,"Factor");
 
 	if (isID || isNumb || EQ("true") || EQ("false")) {
 		mnog->addChild(SYMBOL());

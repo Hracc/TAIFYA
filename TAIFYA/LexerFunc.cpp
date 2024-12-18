@@ -59,7 +59,7 @@ void put(unordered_map<string, int>& table) {
 	if (it == table.end()) {
 		z = static_cast<int>(table.size() + 1);
 		table[S] = z;
-		if (printStatus) {
+		if (printLexStatus) {
 			std::cout << "\t put & ";
 		}
 		wasPut = true;
@@ -96,7 +96,7 @@ static void printLex(int t, int v) {
 	}
 	string key = findKeyByValue(table, v);
 	if (!key.empty()) {
-		if (printStatus) {
+		if (printLexStatus) {
 			if (wasPut) {
 				std::cout << "out: (" << t << ", " << v << ") : " << key << endl;
 				wasPut = false;
@@ -167,7 +167,7 @@ void reportErr(LexerErr errorType) {
 		std::cerr << "Missing closing brace '}'." << std::endl;
 		break;
 	case LexerErr::MissingClosingComment:
-		std::cerr << "Missing closing brace '*/'." << std::endl;
+		std::cerr << "Missing closing comment '*/'." << std::endl;
 		break;
 	case LexerErr::InvalidNumberFormat:
 		std::cerr << "Invalid number format" << std::endl;
@@ -179,6 +179,7 @@ void reportErr(LexerErr errorType) {
 }
 
 void reportErr(LexerErr errortype, char CH) {
+	std::cerr << "[LexError] Line " << line << ": ";
 	switch (errortype) {
 	case LexerErr::UnknownSymbol:
 		std::cerr << "Unknown symbol: '" << CH << "'" << std::endl;

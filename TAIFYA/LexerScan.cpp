@@ -15,7 +15,7 @@ bool lexScan() {
 	bool isOutput = false;
 	bool isBackup = false;
 	gc();
-	if (printStatus) {
+	if (printLexStatus) {
 		std::cout << "Line: 1" << endl;
 	}
 	while (CS != V) {
@@ -31,7 +31,7 @@ bool lexScan() {
 				}
 				else if (CH == '\n') {
 					line++;
-					if (printStatus) {
+					if (printLexStatus) {
 						std::cout << "Line: " << line << endl;
 					}
 				}
@@ -115,13 +115,17 @@ bool lexScan() {
 			}
 			else if (CH == ')') {
 				out(2, 18);
-				if (isInput || isOutput) {
+				if (isInput) {
 					isInput = false;
-					isOutput = false;
 					isBackup = false;
 					unskipSpace = false;
 				}
 				gc();
+				if (isOutput && CH == ';') {
+					isOutput = false;
+					isBackup = false;
+					unskipSpace = false;
+				}
 			}
 			// Ограничители из одного символа
 			else {
@@ -485,7 +489,7 @@ bool lexScan() {
 				gc();
 				CS = _16;
 			}
-			else if (lowerCH == 'h') {
+			else if (CH == 'h' || CH == 'H') {
 				add();
 				gc();
 				CS = _16E;
@@ -633,6 +637,7 @@ bool lexScan() {
 		case ER:
 			return false;
 		case V:
+			std::cout.flush();
 			return true;
 		}
 	}

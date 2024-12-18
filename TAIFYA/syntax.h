@@ -19,6 +19,9 @@ extern bool scanStatus;
 extern bool isID;
 extern bool isNumb;
 
+extern bool printSyntaxStatus;
+
+
 bool syntaxScan();
 void gl();
 bool EQ(string S);

@@ -50,7 +50,7 @@ extern string S;
 
 // Прочее переменные
 extern bool canRead;
-extern bool printStatus;
+extern bool printLexStatus;
 
 //Лексический анализатор
 bool lexScan();
