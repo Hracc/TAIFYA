@@ -119,6 +119,7 @@ bool lexScan() {
 					isInput = false;
 					isOutput = false;
 					isBackup = false;
+					unskipSpace = false;
 				}
 				gc();
 			}

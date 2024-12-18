@@ -4,7 +4,8 @@
 	int,a1:%;double:!;;
 	bool1,bool2,bool3:$;;
 
-	output(a1<2 0ah);
+	for(a1=0;bool1;) [input(a1 bool2); input(a1);];
+
 	/* 
 		Примеры возможных написаний кода:
 			Описание:

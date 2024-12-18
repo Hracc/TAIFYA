@@ -89,6 +89,7 @@ struct Node {
 	}
 
 	static void printRoot(const shared_ptr<Node>& root) {
+		std::cout << "Syntax Tree:"<< endl<< endl;
 		std::cout << root->description;
 		if (root->lexem.tableNumb == 0) {
 			std::cout << endl;

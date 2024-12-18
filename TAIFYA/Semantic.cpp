@@ -56,13 +56,16 @@ static string printType(NodeType type) {
 	}
 }
 
-static void printTable() {
+void printTable() {
 	// Для проверки
+	std::cout << "Semantic Table Id:" << endl << endl;
 	for (const auto& pair : TI_semantic) {
 		std::cout << "Key: " << pair.first
 			<< ", Name: " << pair.second.name
 			<< ", Type: " << printType(pair.second.type) << endl;
 	}
+	std::cout << endl;
+
 }
 
 static NodeType findNumbType(int value) {
@@ -156,18 +159,6 @@ void checkOutput(shared_ptr<Node> node) {
 	for (shared_ptr<Node> child : node->children) {
 		if (child->type == NodeType::EXPRESSION) {
 			checkExpression(child);
-		}
-	}
-}
-
-void checkLoopFor(shared_ptr<Node> node) {
-	int numbOfExpr = 0;
-	for (shared_ptr<Node> child : node->children) {
-		if (child->type == NodeType::EXPRESSION) {
-			if (checkExpression(child) != NodeType::BOOL) {
-				child->lexem.linePos = linePosition;
-				semant_err_proc(SemantErr::InvalidCondition, child);
-			}
 		}
 	}
 }
