@@ -68,12 +68,13 @@ shared_ptr<Node> PROGRAMM() {
 	if (EQ("{")) {
 		gl();
 
-		while (!EQ("}") && scanStatus) {
+		 do{
 			shared_ptr<Node> child = BODY();
 			if (child) {
 				programmNode->addChild(child);
 			}
-		}
+		}while (!EQ("}") && scanStatus);
+
 		if (!EQ("}")) {
 			syntax_err_proc("}");
 		}
@@ -111,6 +112,9 @@ shared_ptr<Node> BODY() {
 		else {
 			syntax_err_proc(";");
 		}
+	}
+	else if (EQ(";")) {
+		gl();
 	}
 	else {
 		syntax_err_proc(SyntaxErr::UnexpectedLexem);

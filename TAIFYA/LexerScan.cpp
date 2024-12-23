@@ -10,6 +10,7 @@ bool lexScan() {
 	std::cout << endl << "Lexer: Start ============================================" << endl << endl;
 	states CS;
 	CS = H;
+	int countBackup = 0;
 	bool unskipSpace = false;
 	bool isInput = false;
 	bool isOutput = false;
@@ -110,6 +111,9 @@ bool lexScan() {
 				out(2, 17);
 				if (isInput || isOutput) {
 					isBackup = true;
+					if (isOutput) {
+						countBackup++;
+					}
 				}
 				gc();
 			}
@@ -120,12 +124,15 @@ bool lexScan() {
 					isBackup = false;
 					unskipSpace = false;
 				}
-				gc();
-				if (isOutput && CH == ';') {
-					isOutput = false;
-					isBackup = false;
-					unskipSpace = false;
+				if (isOutput) {
+					countBackup--;
+					if (countBackup == 0) {
+						isOutput = false;
+						isBackup = false;
+						unskipSpace = false;
+					}
 				}
+				gc();
 			}
 			// Ограничители из одного символа
 			else {
@@ -169,7 +176,7 @@ bool lexScan() {
 				else {
 					put(TI);
 					out(4, z);
-					if (isBackup) {
+					if (isInput || isOutput) {
 						unskipSpace = true;
 					}
 				}
@@ -494,7 +501,7 @@ bool lexScan() {
 				gc();
 				CS = _16E;
 			}
-			else if (checkTL()) {
+			else if (checkTL() && digit()) {
 				put(TN);
 				out(3, z);
 				if (isOutput) { unskipSpace = true; }

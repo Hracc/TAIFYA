@@ -1,3 +1,18 @@
 {
-	25
+	/* Зона для тестирования */
+	int,c1:%;double:!;;
+	bool1,bool2,bool3:$;;
+	input(c1);
+	do while
+	(c1<10101b) and bool3
+	[double = 23.1] loop;
+	for(;bool1;) [
+		input( bool3 c1);
+		output(c1) ;
+		[output((2eh-1)<0 32E+32) ]
+	];
+	if 2<1 then
+	[[[[let double = 2.0/(1.2+2e1)]]]]
+	end_else;
+
 }

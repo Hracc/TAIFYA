@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\input.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\Semantic.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\Semantic.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\LexerScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\SyntaxScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\SyntaxScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerFunc.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\LexerFunc.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,22 +30,61 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Semantic.cpp",
-              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\Semantic.cpp",
-              "RelativeDocumentMoniker": "TAIFYA\\Semantic.cpp",
-              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\Semantic.cpp",
-              "RelativeToolTip": "TAIFYA\\Semantic.cpp",
-              "ViewState": "AgIAAOgAAAAAAAAAAAAwwP4AAAADAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "input.txt",
+              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt",
+              "RelativeDocumentMoniker": "TAIFYA\\input.txt",
+              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt",
+              "RelativeToolTip": "TAIFYA\\input.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2024-12-23T17:29:48.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LexerFunc.cpp",
+              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerFunc.cpp",
+              "RelativeDocumentMoniker": "TAIFYA\\LexerFunc.cpp",
+              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerFunc.cpp",
+              "RelativeToolTip": "TAIFYA\\LexerFunc.cpp",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-18T15:48:27.113Z",
+              "WhenOpened": "2024-12-22T18:27:46.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LexerScan.cpp",
+              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp",
+              "RelativeDocumentMoniker": "TAIFYA\\LexerScan.cpp",
+              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp",
+              "RelativeToolTip": "TAIFYA\\LexerScan.cpp",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-22T18:19:02.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\main.cpp",
+              "RelativeDocumentMoniker": "TAIFYA\\main.cpp",
+              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\main.cpp",
+              "RelativeToolTip": "TAIFYA\\main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-20T07:45:05.835Z",
               "EditorCaption": ""
             }
           ]
         },
         {
           "DockedWidth": 243,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,32 +93,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SyntaxScan.cpp",
-              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\SyntaxScan.cpp",
-              "RelativeDocumentMoniker": "TAIFYA\\SyntaxScan.cpp",
-              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\SyntaxScan.cpp",
-              "RelativeToolTip": "TAIFYA\\SyntaxScan.cpp",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAAAIYAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-18T19:12:10.412Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "input.txt",
-              "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt",
-              "RelativeDocumentMoniker": "TAIFYA\\input.txt",
-              "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt",
-              "RelativeToolTip": "TAIFYA\\input.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-12-17T13:02:19.925Z",
-              "EditorCaption": ""
             }
           ]
         }

@@ -218,6 +218,7 @@ NodeType checkOperand(shared_ptr<Node> node) {
 
 NodeType checkTerm(shared_ptr<Node> node) {
 	bool haveNumbOperation = false;
+	int tokenOp = 0;
 	NodeType leftTermType = NodeType::UNKNOWN, rightTermType;
 	for (shared_ptr<Node> child : node->children) {
 		if (child->type == NodeType::FACTOR) {
@@ -230,13 +231,19 @@ NodeType checkTerm(shared_ptr<Node> node) {
 					child->lexem.linePos = linePosition;
 					semant_err_proc(SemantErr::DifferentType, child);
 				}
-				leftTermType = rightTermType;
+				if (tokenOp == 11) {
+					leftTermType = NodeType::DOUBLE;
+				}
+				else {
+					leftTermType = rightTermType;
+				}
 				haveNumbOperation = false;
 			}
 		}
 		else if (child->type == NodeType::NUMB_OPERATION || 
 			child->type == NodeType::BOOL_OPERATION) {
 			haveNumbOperation = true;
+			tokenOp = child->lexem.valueNumb;
 		}
 	}
 	return leftTermType;
