@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\input.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\LexerScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|solutionrelative:TAIFYA\\LexerScan.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F326C823-9EC0-4D8E-9913-BBC555CBB1C9}|TAIFYA\\TAIFYA.vcxproj|C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerFunc.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "TAIFYA\\input.txt",
               "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\input.txt",
               "RelativeToolTip": "TAIFYA\\input.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
               "WhenOpened": "2024-12-23T17:29:48.883Z",
               "EditorCaption": ""
@@ -51,31 +51,29 @@
               "RelativeToolTip": "TAIFYA\\LexerFunc.cpp",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-22T18:27:46.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-22T18:27:46.168Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "LexerScan.cpp",
               "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp",
               "RelativeDocumentMoniker": "TAIFYA\\LexerScan.cpp",
               "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\LexerScan.cpp",
               "RelativeToolTip": "TAIFYA\\LexerScan.cpp",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAHgCAAAAAAAAAAAAAIgCAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-22T18:19:02.075Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-22T18:19:02.075Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\main.cpp",
               "RelativeDocumentMoniker": "TAIFYA\\main.cpp",
               "ToolTip": "C:\\Users\\79379\\Documents\\GitHub\\TAIFYA\\TAIFYA\\main.cpp",
               "RelativeToolTip": "TAIFYA\\main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-20T07:45:05.835Z",
               "EditorCaption": ""

@@ -7,7 +7,7 @@
 #include <chrono>
 
 bool printLexStatus = true;
-bool printSyntaxStatus = false;
+bool printSyntaxStatus = true;
 
 int main() {
 	auto start = std::chrono::high_resolution_clock::now();
